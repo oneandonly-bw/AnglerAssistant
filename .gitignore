@@ -30,3 +30,6 @@ Thumbs.db
 # Temp
 *.tmp
 *.bak
+
+# API Keys (local config)
+labels/src/main/resources/llm/groq.json
