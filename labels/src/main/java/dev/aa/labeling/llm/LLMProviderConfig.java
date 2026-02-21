@@ -41,6 +41,7 @@ public class LLMProviderConfig {
     public String getApiUrl() { return apiUrl; }
     public String getModel() { return model; }
     public String getApiKey() { return apiKey; }
+    public void setApiKey(String apiKey) { this.apiKey = apiKey; }
     public String getApiKeyEnvVar() { return apiKeyEnvVar; }
     public boolean isEnabled() { return enabled; }
     public int getPriority() { return priority; }

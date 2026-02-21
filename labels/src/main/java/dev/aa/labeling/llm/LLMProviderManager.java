@@ -56,9 +56,10 @@ public class LLMProviderManager {
         
         try (var files = Files.list(configDir)) {
             for (var file : files.collect(Collectors.toList())) {
-                if (file.toString().endsWith(".json")) {
+                if (file.toString().endsWith(".json") && !file.toString().endsWith("_key.json")) {
                     try {
                         LLMProviderConfig config = mapper.readValue(file.toFile(), LLMProviderConfig.class);
+                        injectKey(config, configDir);
                         LLMProvider adapter = createAdapter(config);
                         if (adapter != null) {
                             providers.add(new ProviderState(adapter, config));
@@ -72,6 +73,27 @@ public class LLMProviderManager {
         }
         
         logger.info("Total providers loaded: {}", providers.size());
+    }
+    
+    private void injectKey(LLMProviderConfig config, Path configDir) {
+        String providerName = config.getName();
+        Path keyFile = configDir.resolve(providerName + "_key.json");
+        
+        if (Files.exists(keyFile)) {
+            try {
+                ObjectMapper keyMapper = new ObjectMapper();
+                Map<String, String> keyData = keyMapper.readValue(keyFile.toFile(), 
+                    new com.fasterxml.jackson.core.type.TypeReference<Map<String, String>>() {});
+                
+                String key = keyData.get("key");
+                if (key != null && !key.isEmpty()) {
+                    config.setApiKey(key);
+                    logger.info("Injected API key for provider: {}", providerName);
+                }
+            } catch (Exception e) {
+                logger.warn("Failed to load key file for {}: {}", providerName, e.getMessage());
+            }
+        }
     }
 
     private LLMProvider createAdapter(LLMProviderConfig config) {
@@ -294,6 +316,10 @@ public class LLMProviderManager {
 
     public List<LLMProvider> getProviders() {
         return providers.stream().map(p -> p.provider).collect(Collectors.toList());
+    }
+    
+    public List<LLMProviderConfig> getProviderConfigs() {
+        return providers.stream().map(p -> p.config).collect(Collectors.toList());
     }
 
     public void close() {
