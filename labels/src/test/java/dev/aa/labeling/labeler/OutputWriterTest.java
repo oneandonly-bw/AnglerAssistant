@@ -22,7 +22,7 @@ class OutputWriterTest {
             "http://example.com/topic", 
             "ru", 
             "Я поймал карпа", 
-            List.of(new LabelPosition("карпа", "карп", null, 7, 12))
+            List.of(new LabelEntry("карпа", "карп", null, 7, 12))
         );
         writer.writeData(sentence);
         writer.close();
@@ -42,8 +42,8 @@ class OutputWriterTest {
         OutputWriter writer = new OutputWriter(tempDir, "output.jsonl");
         writer.open();
         
-        writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com/1", "ru", "text1", List.of(new LabelPosition("a", "a", null, 0, 1))));
-        writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com/2", "en", "text2", List.of(new LabelPosition("b", "b", null, 0, 1))));
+        writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com/1", "ru", "text1", List.of(new LabelEntry("a", "a", null, 0, 1))));
+        writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com/2", "en", "text2", List.of(new LabelEntry("b", "b", null, 0, 1))));
         writer.close();
         
         Path outputFile = tempDir.resolve("output.jsonl");
@@ -56,8 +56,8 @@ class OutputWriterTest {
     @Test
     void testWriteResult() throws Exception {
         List<LabeledSentence> sentences = List.of(
-            new LabeledSentence("http://example.com/f1", "http://example.com/topic", "ru", "Предложение 1", List.of(new LabelPosition("label1", "label1", null, 0, 6))),
-            new LabeledSentence("http://example.com/f1", "http://example.com/topic", "ru", "Предложение 2", List.of(new LabelPosition("label2", "label2", null, 0, 6)))
+            new LabeledSentence("http://example.com/f1", "http://example.com/topic", "ru", "Предложение 1", List.of(new LabelEntry("label1", "label1", null, 0, 6))),
+            new LabeledSentence("http://example.com/f1", "http://example.com/topic", "ru", "Предложение 2", List.of(new LabelEntry("label2", "label2", null, 0, 6)))
         );
         LabelingMetadata metadata = new LabelingMetadata("ru", "2026-01-01", 2, 10, 1);
         LabelingResult result = new LabelingResult(sentences, metadata);
@@ -78,7 +78,7 @@ class OutputWriterTest {
         OutputWriter writer = new OutputWriter(tempDir, "output.jsonl");
         writer.open();
         
-        writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com", "en", "test sentence", List.of(new LabelPosition("test", "test", null, 0, 4))));
+        writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com", "en", "test sentence", List.of(new LabelEntry("test", "test", null, 0, 4))));
         writer.close();
         
         Path outputFile = tempDir.resolve("output.jsonl");
@@ -134,7 +134,7 @@ class OutputWriterTest {
         
         // Test with variant
         writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com", "en", "I caught musht", 
-            List.of(new LabelPosition("musht", "tilapia", "musht", 9, 14))));
+            List.of(new LabelEntry("musht", "tilapia", "musht", 9, 14))));
         writer.close();
         
         Path outputFile = tempDir.resolve("output.jsonl");

@@ -192,7 +192,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                 continue;
             }
             
-            List<LabelPosition> foundLabels = findLabels(originalText, cleanedText, true);
+            List<LabelEntry> foundLabels = findLabels(originalText, cleanedText, true);
             
             if (!foundLabels.isEmpty()) {
                 sentences.add(new LabeledSentence(forumUrl, topicUrl, lang, originalText, foundLabels));
@@ -213,11 +213,9 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
         return text.replaceAll("[^\\p{L}\\s]", "");
     }
     
-    private List<LabelPosition> findLabels(String originalText, String cleanedText, boolean debug) {
-        List<LabelPosition> found = new ArrayList<>();
+    private List<LabelEntry> findLabels(String originalText, String cleanedText, boolean debug) {
+        List<LabelEntry> found = new ArrayList<>();
         String lowerText = cleanedText.toLowerCase();
-        
-        Set<String> processedWords = new HashSet<>();
         
         for (DictionaryEntry entry : dictionary) {
             String canonical = entry.getCanonical();
@@ -255,11 +253,6 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                     String surface = cleanedText.substring(wordStart, wordEnd);
                     
                     if (shouldSkip(surface)) {
-                        idx = end;
-                        continue;
-                    }
-                    
-                    if (processedWords.contains(surface.toLowerCase())) {
                         idx = end;
                         continue;
                     }
@@ -312,8 +305,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                             variant = value;
                         }
                         
-                        found.add(new LabelPosition(surface, canonical, variant, wordStart, wordEnd));
-                        processedWords.add(surfaceLower);
+                        found.add(new LabelEntry(surface, canonical, variant, wordStart, wordEnd));
                         
                         if (countersManager != null) {
                             countersManager.incrementDictionary(value);

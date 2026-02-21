@@ -9,8 +9,8 @@ class LabelingResultTest {
     @Test
     void testConstructor() {
         List<LabeledSentence> sentences = List.of(
-            new LabeledSentence("http://example.com/f1", "http://example.com/1", "ru", "text1", List.of(new LabelPosition("label1", "label1", null, 0, 6))),
-            new LabeledSentence("http://example.com/f1", "http://example.com/2", "ru", "text2", List.of(new LabelPosition("label2", "label2", null, 0, 6)))
+            new LabeledSentence("http://example.com/f1", "http://example.com/1", "ru", "text1", List.of(new LabelEntry("label1", "label1", null, 0, 6))),
+            new LabeledSentence("http://example.com/f1", "http://example.com/2", "ru", "text2", List.of(new LabelEntry("label2", "label2", null, 0, 6)))
         );
         LabelingMetadata metadata = new LabelingMetadata("ru", "2026-01-01", 2, 10, 1);
         
@@ -22,7 +22,7 @@ class LabelingResultTest {
 
     @Test
     void testGetSentences() {
-        LabeledSentence sentence = new LabeledSentence("http://example.com/f1", "http://example.com", "en", "test", List.of(new LabelPosition("a", "a", null, 0, 1)));
+        LabeledSentence sentence = new LabeledSentence("http://example.com/f1", "http://example.com", "en", "test", List.of(new LabelEntry("a", "a", null, 0, 1)));
         LabelingResult result = new LabelingResult(List.of(sentence), new LabelingMetadata("en", "date", 1, 5, 1));
         
         assertEquals(1, result.sentences().size());
@@ -40,9 +40,9 @@ class LabelingResultTest {
     @Test
     void testGetTotalSentences() {
         List<LabeledSentence> sentences = List.of(
-            new LabeledSentence("http://example.com/f1", "http://example.com/1", "ru", "text1", List.of(new LabelPosition("l1", "l1", null, 0, 2))),
-            new LabeledSentence("http://example.com/f1", "http://example.com/2", "ru", "text2", List.of(new LabelPosition("l2", "l2", null, 0, 2))),
-            new LabeledSentence("http://example.com/f1", "http://example.com/3", "ru", "text3", List.of(new LabelPosition("l3", "l3", null, 0, 2)))
+            new LabeledSentence("http://example.com/f1", "http://example.com/1", "ru", "text1", List.of(new LabelEntry("l1", "l1", null, 0, 2))),
+            new LabeledSentence("http://example.com/f1", "http://example.com/2", "ru", "text2", List.of(new LabelEntry("l2", "l2", null, 0, 2))),
+            new LabeledSentence("http://example.com/f1", "http://example.com/3", "ru", "text3", List.of(new LabelEntry("l3", "l3", null, 0, 2)))
         );
         LabelingResult result = new LabelingResult(sentences, new LabelingMetadata("ru", "date", 3, 10, 1));
         

@@ -2,19 +2,16 @@
 
 ## Current Tasks
 
-0. **Groq key injection** - implement injectKey(providerName) method in LLMProviderManager - pending
-   - Add injectKey(String providerName) method
-   - Load {providerName}_key.json and inject key into config before creating adapter
-   - Add test: verify key is injected correctly
+0. **Groq key injection** - implement injectKey(providerName) method in LLMProviderManager - completed
+1. **Test refactoring** - verify all tests work with new package names - completed
+2. **LLM providers refactor** - add enabled providers list in site config, add new properties in providerconfig - pending
 
-1. **Test refactoring** - verify all tests work with new package names - pending
-
-2. **Add isValid field to LabelEntry** - pending
-3. **Create labels with isValid=false for rejected candidates** (blocked, skipList, !lemma.contains, LLM FALSE) - pending
-4. **Remove processedWords check** - allow all occurrences to be labeled - pending
-5. **Update LabeledSentence** - add validLabels and invalidLabels lists (keep isValid in LabelEntry) - pending
-6. **Rename LabelPosition to LabelEntry** - pending
-7. **Update docs in new folder** - completed
+3. **Add isValid field to LabelEntry** - pending
+4. **Create labels with isValid=false for rejected candidates** (blocked, skipList, !lemma.contains, LLM FALSE) - pending
+5. **Remove processedWords check** - allow all occurrences to be labeled - completed
+6. **Update LabeledSentence** - add validLabels and invalidLabels lists (keep isValid in LabelEntry) - pending
+7. **Rename LabelPosition to LabelEntry** - completed
+8. **Update docs in new folder** - completed
 
 ## Notes
 

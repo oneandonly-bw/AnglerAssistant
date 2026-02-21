@@ -7,5 +7,5 @@ public record LabeledSentence(
     String topicUrl, 
     String lang, 
     String text,
-    List<LabelPosition> labels
+    List<LabelEntry> labels
 ) {}

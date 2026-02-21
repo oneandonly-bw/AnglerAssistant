@@ -8,9 +8,9 @@ class LabeledSentenceTest {
 
     @Test
     void testConstructor() {
-        List<LabelPosition> labels = List.of(
-            new LabelPosition("carp", "carp", null, 10, 14),
-            new LabelPosition("fish", "fish", null, 15, 19)
+        List<LabelEntry> labels = List.of(
+            new LabelEntry("carp", "carp", null, 10, 14),
+            new LabelEntry("fish", "fish", null, 15, 19)
         );
         LabeledSentence sentence = new LabeledSentence("http://example.com/f1", "http://example.com/topic", "en", "I caught a carp and fish", labels);
         
@@ -22,7 +22,7 @@ class LabeledSentenceTest {
 
     @Test
     void testGetters() {
-        List<LabelPosition> labels = List.of(new LabelPosition("карп", "карп", null, 7, 11));
+        List<LabelEntry> labels = List.of(new LabelEntry("карп", "карп", null, 7, 11));
         LabeledSentence sentence = new LabeledSentence("http://example.com/f1", "http://example.com/topic", "ru", "я поймал карпа", labels);
         
         assertEquals("http://example.com/topic", sentence.topicUrl());
@@ -40,9 +40,9 @@ class LabeledSentenceTest {
 
     @Test
     void testMultipleLabels() {
-        List<LabelPosition> labels = List.of(
-            new LabelPosition("carp", "carp", null, 14, 18),
-            new LabelPosition("pike", "pike", null, 23, 27)
+        List<LabelEntry> labels = List.of(
+            new LabelEntry("carp", "carp", null, 14, 18),
+            new LabelEntry("pike", "pike", null, 23, 27)
         );
         LabeledSentence sentence = new LabeledSentence("http://example.com/f1", "http://example.com/topic", "en", "Fishing for carp and pike", labels);
         
@@ -51,8 +51,8 @@ class LabeledSentenceTest {
 
     @Test
     void testWithVariant() {
-        List<LabelPosition> labels = List.of(
-            new LabelPosition("musht", "tilapia", "musht", 10, 15)
+        List<LabelEntry> labels = List.of(
+            new LabelEntry("musht", "tilapia", "musht", 10, 15)
         );
         LabeledSentence sentence = new LabeledSentence("http://example.com/f1", "http://example.com/topic", "en", "I caught musht", labels);
         

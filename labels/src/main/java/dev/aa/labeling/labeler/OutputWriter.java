@@ -118,7 +118,7 @@ public class OutputWriter implements AutoCloseable {
     public void writeData(LabeledSentence sentence) throws IOException {
         sentencesWritten++;
         
-        for (LabelPosition label : sentence.labels()) {
+        for (LabelEntry label : sentence.labels()) {
             registerLabel(label.canonical());
         }
 
@@ -134,10 +134,10 @@ public class OutputWriter implements AutoCloseable {
         writer.newLine();
     }
 
-    private ArrayNode labelsToArrayNode(List<LabelPosition> labels) {
+    private ArrayNode labelsToArrayNode(List<LabelEntry> labels) {
         ArrayNode arrayNode = objectMapper.createArrayNode();
         if (labels != null) {
-            for (LabelPosition label : labels) {
+            for (LabelEntry label : labels) {
                 ObjectNode labelObj = objectMapper.createObjectNode();
                 labelObj.put("surface", label.surface());
                 labelObj.put("canonical", label.canonical());
