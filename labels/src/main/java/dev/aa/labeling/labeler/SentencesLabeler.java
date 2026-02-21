@@ -148,7 +148,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
     private List<LabeledSentence> processSentences(String content, String forumUrl, String topicUrl, String lang) {
         List<LabeledSentence> sentences = new ArrayList<>();
         
-        content = content.replaceAll("\\s+", " ").trim();
+        content = normalizeText(content);
         String[] rawSentences = languageConfig.getSentencePattern().split(content);
         
         int rawCount = rawSentences.length;
@@ -171,8 +171,8 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                 continue;
             }
             
-            String originalText = raw.replaceAll("\\s+", " ").trim();
-            String cleanedText = removePunctuation(originalText);
+            String originalText = raw.trim();
+            String cleanedText = originalText;
             String lowerCleaned = cleanedText.toLowerCase();
             
             // Check if any dictionary value found
@@ -195,9 +195,26 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
             List<LabelEntry> foundLabels = findLabels(originalText, cleanedText, true);
             
             if (!foundLabels.isEmpty()) {
-                sentences.add(new LabeledSentence(forumUrl, topicUrl, lang, originalText, foundLabels));
-                labelsAdded += foundLabels.size();
+                List<LabelEntry> validLabels = foundLabels.stream()
+                    .filter(LabelEntry::isValid)
+                    .toList();
+                List<LabelEntry> invalidLabels = foundLabels.stream()
+                    .filter(l -> !l.isValid())
+                    .toList();
+                
+                int maxContextLength = config.maxSentenceLengthForContext();
+                if (originalText.length() > maxContextLength && !validLabels.isEmpty()) {
+                    List<LabeledSentence> contextSentences = extractContext(originalText, cleanedText, validLabels, forumUrl, topicUrl, lang);
+                    sentences.addAll(contextSentences);
+                    labelsAdded += contextSentences.stream().mapToInt(s -> s.validLabels().size()).sum();
+                } else {
+                    sentences.add(new LabeledSentence(forumUrl, topicUrl, lang, originalText, validLabels, invalidLabels));
+                    labelsAdded += foundLabels.size();
+                }
                 labeledCount++;
+                if (labeledCount % 10 == 0) {
+                    System.out.println("Labeled so far: " + labeledCount);
+                }
             }
         }
         
@@ -209,8 +226,52 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
         return sentences;
     }
     
-    private String removePunctuation(String text) {
-        return text.replaceAll("[^\\p{L}\\s]", "");
+    private List<LabeledSentence> extractContext(String originalText, String cleanedText, List<LabelEntry> validLabels, String forumUrl, String topicUrl, String lang) {
+        List<LabeledSentence> contexts = new ArrayList<>();
+        String contextSource = topicUrl + "(context)";
+        
+        String[] words = cleanedText.split("\\s+");
+        
+        for (LabelEntry label : validLabels) {
+            int labelStart = label.start();
+            int labelEnd = label.end();
+            
+            int wordIndex = getWordIndexAtPosition(cleanedText, labelStart);
+            
+            if (wordIndex >= 0 && wordIndex < words.length) {
+                int contextStart = Math.max(0, wordIndex - 5);
+                int contextEnd = Math.min(words.length, wordIndex + 6);
+                
+                if (contextStart < contextEnd) {
+                    StringBuilder contextBuilder = new StringBuilder();
+                    for (int i = contextStart; i < contextEnd; i++) {
+                        if (i > contextStart) contextBuilder.append(" ");
+                        contextBuilder.append(words[i]);
+                    }
+                    String contextText = contextBuilder.toString().trim();
+                    
+                    if (contextText.length() >= config.minSentenceLength()) {
+                        List<LabelEntry> singleLabel = List.of(label);
+                        contexts.add(new LabeledSentence(forumUrl, contextSource, lang, contextText, singleLabel, List.of()));
+                    }
+                }
+            }
+        }
+        
+        return contexts;
+    }
+    
+    private int getWordIndexAtPosition(String text, int charPosition) {
+        if (charPosition <= 0) return 0;
+        String prefix = text.substring(0, Math.min(charPosition, text.length()));
+        return prefix.split("\\s+").length - 1;
+    }
+    
+    private String normalizeText(String text) {
+        return text.replaceAll("[\r\n]", " ")
+                   .replaceAll("([.,!?;:])([^\s])", "$1 $2")
+                   .replaceAll("\\s+", " ")
+                   .trim();
     }
     
     private List<LabelEntry> findLabels(String originalText, String cleanedText, boolean debug) {
@@ -253,6 +314,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                     String surface = cleanedText.substring(wordStart, wordEnd);
                     
                     if (shouldSkip(surface)) {
+                        found.add(new LabelEntry(surface, canonical, value, wordStart, wordEnd, false));
                         idx = end;
                         continue;
                     }
@@ -272,9 +334,9 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                     } else {
                         // Step 10: Lemma
                         String lemma = getLemma(surfaceLower);
-                        // Step 11: Lemma doesn't contain key -> skip
+                        // Step 11: Lemma doesn't contain key -> invalid
                         if (lemma != null && !lemma.contains(valueLower)) {
-                            // skip - lemma doesn't contain key
+                            found.add(new LabelEntry(surface, canonical, value, wordStart, wordEnd, false));
                         } else if (lemma != null && lemma.length() == valueLower.length()) {
                             // Step 12: Exact match (no suffix added)
                             System.out.println("candidate found, lemma match => '" + lemma + "', '" + valueLower + "'");
@@ -290,8 +352,9 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                                 cacheManager.addLemma(lemma);
                                 isMatch = true;
                             } else {
-                                // Step 14: LLM FALSE - add to skipList
+                                // Step 14: LLM FALSE - add invalid label and skipList
                                 System.out.println("candidate found, LLM reject => '" + surfaceLower + "', '" + valueLower + "'");
+                                found.add(new LabelEntry(surface, canonical, value, wordStart, wordEnd, false));
                                 if (rejectedTerms != null) {
                                     rejectedTerms.put(surfaceLower, System.currentTimeMillis());
                                 }
@@ -352,13 +415,15 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
             return true;
         }
         if (rejectedTerms != null) {
-            boolean rejected = rejectedTerms.containsKey(word);
-            if (!rejected) {
-                rejectedTerms.put(word, System.currentTimeMillis());
-            }
-            return rejected;
+            return rejectedTerms.containsKey(word);
         }
         return false;
+    }
+    
+    private void addToRejected(String word) {
+        if (rejectedTerms != null) {
+            rejectedTerms.put(word, System.currentTimeMillis());
+        }
     }
     
     private void loadDictionary() {

@@ -75,10 +75,25 @@ public class Constants {
     
     /** System prompt for LLM-based word form validation */
     public static final String LLM_PROMPT = """
-        You are a linguist.
-        
-        TRUE if Candidate refers to the same fish species as Base.
-        FALSE if Candidate is a derived word (equipment, profession, adjective) or not a fish.
+        You are a Russian linguist.
+
+        TRUE if Candidate denotes the same fish species as Base.
+        This includes:
+        - grammatical inflections
+        - diminutives
+        - augmentatives
+        - colloquial morphological forms
+        - size-modified forms
+
+        FALSE if Candidate is:
+        - equipment
+        - profession
+        - adjective
+        - nickname
+        - metaphor
+        - a different species
+        - or not a fish
+
         Answer TRUE or FALSE only.
         """;
     

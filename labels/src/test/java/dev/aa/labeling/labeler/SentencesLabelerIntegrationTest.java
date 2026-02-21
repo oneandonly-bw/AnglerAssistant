@@ -9,6 +9,8 @@ import org.junit.jupiter.api.io.TempDir;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,7 +23,7 @@ class SentencesLabelerIntegrationTest {
     void testFullProcessingWithMarkers() throws Exception {
         Path llmConfigDir = Path.of(Constants.DEFAULT_LLM_CONFIG_PATH);
         Path outputDir = tempDir.resolve("output");
-        Path outputFile = outputDir.resolve("test.jsonl");
+        Path outputFile = outputDir.resolve("test_valid.jsonl");
         
         LabelerConfiguration config = new LabelerConfiguration(
             true, 15, 200, 0.3, 0.2,
@@ -130,7 +132,7 @@ class SentencesLabelerIntegrationTest {
         
         labeler.close();
         
-        Path outputFile = outputDir.resolve("test.jsonl");
+        Path outputFile = outputDir.resolve("test_valid.jsonl");
         var lines = Files.readAllLines(outputFile);
         
         long topicStarts = lines.stream().filter(l -> l.contains("\"type\" : \"topic_start\"")).count();
@@ -235,5 +237,111 @@ class SentencesLabelerIntegrationTest {
         
         assertEquals(termsCountAfterFirstRun, termsCountAfterSecondRun, 
             "Cache should be reused - same terms count");
+    }
+
+    @Test
+    void testLongSentenceContextExtraction() throws Exception {
+        Path llmConfigDir = Path.of(Constants.DEFAULT_LLM_CONFIG_PATH);
+        Path outputDir = tempDir.resolve("output_long");
+        
+        LabelerConfiguration config = new LabelerConfiguration(
+            true, 15, 50, 0.3, 0.2,
+            List.of(Constants.DEFAULT_DICTIONARY_PATH),
+            1000,
+            tempDir.resolve("data"),
+            outputDir,
+            "test.jsonl",
+            "ru",
+            "test_forum",
+            0
+        );
+        
+        OutputWriter writer = new OutputWriter(outputDir, "test.jsonl");
+        SentencesLabeler labeler = new SentencesLabeler(config, writer, llmConfigDir, new NoOpLemmatizer());
+        
+        Topic topic = new Topic("test", "Test", "Test", "http://example.com/forum1", "http://example.com/topic1", "1");
+        topic.setContent("Вчера я ходил на рыбалку и поймал огромного карпа который весил около пяти килограмм а также несколько небольших карасей.");
+        topic.setLanguage("RU");
+        
+        writer.writeForumStart("http://example.com/forum1");
+        writer.writeTopicStart("http://example.com/forum1", "http://example.com/topic1");
+        
+        labeler.processTopic(topic);
+        
+        writer.writeTopicEnd("http://example.com/forum1", "http://example.com/topic1");
+        writer.writeForumEnd("http://example.com/forum1");
+        writer.close();
+        
+        labeler.close();
+        
+        Path outputFile = outputDir.resolve("test_valid.jsonl");
+        var lines = Files.readAllLines(outputFile);
+        
+        long dataLines = lines.stream()
+            .filter(l -> l.contains("\"type\" : \"data\""))
+            .count();
+        
+        assertTrue(dataLines >= 1, "Should have at least one data line");
+        
+        boolean hasContextMarker = false;
+        Pattern textPattern = Pattern.compile("\"text\"\\s*:\\s*\"([^\"]+)\"");
+        for (String line : lines) {
+            if (line.contains("topic1(context)")) {
+                hasContextMarker = true;
+                assertTrue(line.contains("карп"), "Context should contain the fish name");
+                Matcher m = textPattern.matcher(line);
+                if (m.find()) {
+                    String text = m.group(1);
+                    assertTrue(text.length() < 100, "Context text should be shorter than original (~120 chars)");
+                }
+                break;
+            }
+        }
+        assertTrue(hasContextMarker, "Should have context marker in topicUrl");
+    }
+
+    @Test
+    void testLongSentenceWithMultipleLabels() throws Exception {
+        Path llmConfigDir = Path.of(Constants.DEFAULT_LLM_CONFIG_PATH);
+        Path outputDir = tempDir.resolve("output_multi");
+        
+        LabelerConfiguration config = new LabelerConfiguration(
+            true, 15, 60, 0.3, 0.2,
+            List.of(Constants.DEFAULT_DICTIONARY_PATH),
+            1000,
+            tempDir.resolve("data"),
+            outputDir,
+            "test.jsonl",
+            "ru",
+            "test_forum",
+            0
+        );
+        
+        OutputWriter writer = new OutputWriter(outputDir, "test.jsonl");
+        SentencesLabeler labeler = new SentencesLabeler(config, writer, llmConfigDir, new NoOpLemmatizer());
+        
+        Topic topic = new Topic("test", "Test", "Test", "http://example.com/forum1", "http://example.com/topic1", "1");
+        topic.setContent("Вчера на рыбалке я поймал огромного карпа и сазана, а потом еще карпа поймал в озере.");
+        topic.setLanguage("RU");
+        
+        writer.writeForumStart("http://example.com/forum1");
+        writer.writeTopicStart("http://example.com/forum1", "http://example.com/topic1");
+        
+        labeler.processTopic(topic);
+        
+        writer.writeTopicEnd("http://example.com/forum1", "http://example.com/topic1");
+        writer.writeForumEnd("http://example.com/forum1");
+        writer.close();
+        
+        labeler.close();
+        
+        Path outputFile = outputDir.resolve("test_valid.jsonl");
+        var lines = Files.readAllLines(outputFile);
+        
+        long dataLines = lines.stream()
+            .filter(l -> l.contains("\"type\" : \"data\""))
+            .count();
+        
+        assertTrue(dataLines >= 2, "Should have at least 2 data lines (карп x2, сазан)");
     }
 }

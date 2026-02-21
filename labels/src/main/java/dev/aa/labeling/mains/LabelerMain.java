@@ -23,7 +23,7 @@ public class LabelerMain {
     private static void startLemmaService() {
         List<String> commands = new ArrayList<>();
         commands.add("python");
-        commands.add("C:\\AnglerAsistant\\Fine-tuning\\tools\\FlaskService\\lemma_service.py");
+        commands.add("C:\\AnglerAsistant\\labels\\tools\\FlaskService\\lemma_service.py");
         
         Process lemmaServiceProcess = null;
         
@@ -36,7 +36,7 @@ public class LabelerMain {
             System.out.println("Failed to start with 'python', trying full path...");
             List<String> fallbackCommands = new ArrayList<>();
             fallbackCommands.add("C:\\Tools\\Python311\\python.exe");
-            fallbackCommands.add("C:\\AnglerAsistant\\Fine-tuning\\tools\\FlaskService\\lemma_service.py");
+            fallbackCommands.add("C:\\AnglerAsistant\\labels\\tools\\FlaskService\\lemma_service.py");
             
             try {
                 ProcessBuilder fb = new ProcessBuilder(fallbackCommands);

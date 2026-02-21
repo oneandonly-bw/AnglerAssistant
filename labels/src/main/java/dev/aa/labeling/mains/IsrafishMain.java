@@ -125,7 +125,7 @@ public class IsrafishMain {
                 }
             }
         }
-        
+
         try {
             downloader.download();
         } finally {

@@ -7,11 +7,13 @@
 2. **LLM providers refactor** - add enabled providers list in site config, add new properties in providerconfig - pending
 
 3. **Add isValid field to LabelEntry** - completed
-4. **Create labels with isValid=false for rejected candidates** (blocked, skipList, !lemma.contains, LLM FALSE) - pending
+4. **Create labels with isValid=false for rejected candidates** (blocked, skipList, !lemma.contains, LLM FALSE) - completed
 5. **Remove processedWords check** - allow all occurrences to be labeled - completed
-6. **Update LabeledSentence** - add validLabels and invalidLabels lists (keep isValid in LabelEntry) - pending
+6. **Update LabeledSentence** - add validLabels and invalidLabels lists (keep isValid in LabelEntry) - completed
 7. **Rename LabelPosition to LabelEntry** - completed
 8. **Update docs in new folder** - completed
+9. **Implement ContextExtractor for long sentences** - completed
+10. **Add long sentence context extraction to docs** - completed
 
 ## Notes
 
@@ -20,3 +22,4 @@
 - Rejected candidates get labels with isValid=false
 - Rename LabelPosition → LabelEntry
 - Use Flask+pymorphy3 for Russian lemmatization
+- Long sentences (>200 chars) get context extraction: 5 words before + label + 5 words after

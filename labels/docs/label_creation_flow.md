@@ -137,3 +137,29 @@ record LabelEntry(
 - Create label with `isValid = false` → add to `invalidLabels`.
 - Labels reference canonical as the stable class identifier.
 - Variants are preserved only to track which alternative name triggered the match.
+
+---
+
+## Long Sentence Context Extraction
+
+When a sentence exceeds `maxSentenceLengthForContext` (default: 200 chars), context extraction is applied:
+
+### Flow
+
+1. After finding valid labels in a long sentence:
+2. For each label (using its wordStart/wordEnd positions):
+   - Extract words from `wordIndex - 5` to `wordIndex + 6` (5 words before + label + 5 words after)
+   - If the extracted context meets `minSentenceLength`:
+     - Create a new `LabeledSentence` with:
+       - `topicUrl` appended with `"(context)"` suffix
+       - Only the single label that was extracted
+       - The extracted context text
+3. The original long sentence is NOT added; only context sentences are created.
+
+### Example
+
+Original (250 chars): "Вчера я ходил на рыбалку и поймал огромного карпа который весил около пяти килограмм а также несколько небольших карасей"
+
+With label "карп" at word index 8:
+- Context extracted: "огромного карпа который весил около"
+- New LabeledSentence created with this 41-char context

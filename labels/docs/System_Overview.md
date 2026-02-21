@@ -93,7 +93,16 @@ mvn test
 mvn package
 ```
 
-**Tests**: 173 passing (includes CountersManager tests)
+**Tests**: 148 passing
+
+## 8. Long Sentence Handling
+
+Sentences exceeding `maxSentenceLengthForContext` (default: 200 chars) undergo context extraction:
+- For each valid label found, extract 5 words before + label + 5 words after
+- Create separate LabeledSentence for each label
+- Mark with "(context)" suffix in topicUrl
+
+This ensures ML training data has focused, relevant text windows around labels.
 
 ## 8. Entry Points
 

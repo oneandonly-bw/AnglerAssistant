@@ -89,6 +89,16 @@ SentencesLabeler.processTopic(topic)
        │      │      └─▶ LLM fallback → validLabels / invalidLabels
        │      │
        │      ▼
+       │      Length > maxSentenceLengthForContext?
+       │      │
+       │      ├─▶ YES: extractContext() for each label
+       │      │      - Extract 5 words before + label + 5 words after
+       │      │      - Create separate LabeledSentence per label
+       │      │      - Mark topicUrl with "(context)" suffix
+       │      │
+       │      └─▶ NO: Add original sentence with all labels
+       │      │
+       │      ▼
        │      OutputWriter.writeData()
        │
        └─▶ CacheManager.save() (every 5 sentences)

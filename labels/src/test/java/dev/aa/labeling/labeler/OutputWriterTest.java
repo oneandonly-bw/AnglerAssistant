@@ -22,12 +22,13 @@ class OutputWriterTest {
             "http://example.com/topic", 
             "ru", 
             "Я поймал карпа", 
-            List.of(new LabelEntry("карпа", "карп", null, 7, 12, true))
+            List.of(new LabelEntry("карпа", "карп", null, 7, 12, true)),
+            List.of()
         );
         writer.writeData(sentence);
         writer.close();
         
-        Path outputFile = tempDir.resolve("output.jsonl");
+        Path outputFile = tempDir.resolve("output_valid.jsonl");
         assertTrue(Files.exists(outputFile));
         
         String content = Files.readString(outputFile);
@@ -42,11 +43,11 @@ class OutputWriterTest {
         OutputWriter writer = new OutputWriter(tempDir, "output.jsonl");
         writer.open();
         
-        writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com/1", "ru", "text1", List.of(new LabelEntry("a", "a", null, 0, 1, true))));
-        writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com/2", "en", "text2", List.of(new LabelEntry("b", "b", null, 0, 1, true))));
+        writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com/1", "ru", "text1", List.of(new LabelEntry("a", "a", null, 0, 1, true)), List.of()));
+        writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com/2", "en", "text2", List.of(new LabelEntry("b", "b", null, 0, 1, true)), List.of()));
         writer.close();
         
-        Path outputFile = tempDir.resolve("output.jsonl");
+        Path outputFile = tempDir.resolve("output_valid.jsonl");
         String content = Files.readString(outputFile);
         
         assertTrue(content.contains("http://example.com/1"));
@@ -56,8 +57,8 @@ class OutputWriterTest {
     @Test
     void testWriteResult() throws Exception {
         List<LabeledSentence> sentences = List.of(
-            new LabeledSentence("http://example.com/f1", "http://example.com/topic", "ru", "Предложение 1", List.of(new LabelEntry("label1", "label1", null, 0, 6, true))),
-            new LabeledSentence("http://example.com/f1", "http://example.com/topic", "ru", "Предложение 2", List.of(new LabelEntry("label2", "label2", null, 0, 6, true)))
+            new LabeledSentence("http://example.com/f1", "http://example.com/topic", "ru", "Предложение 1", List.of(new LabelEntry("label1", "label1", null, 0, 6, true)), List.of()),
+            new LabeledSentence("http://example.com/f1", "http://example.com/topic", "ru", "Предложение 2", List.of(new LabelEntry("label2", "label2", null, 0, 6, true)), List.of())
         );
         LabelingMetadata metadata = new LabelingMetadata("ru", "2026-01-01", 2, 10, 1);
         LabelingResult result = new LabelingResult(sentences, metadata);
@@ -65,7 +66,7 @@ class OutputWriterTest {
         OutputWriter writer = new OutputWriter(tempDir, "result.jsonl");
         writer.write(result);
         
-        Path outputFile = tempDir.resolve("result.jsonl");
+        Path outputFile = tempDir.resolve("result_valid.jsonl");
         assertTrue(Files.exists(outputFile));
         
         String content = Files.readString(outputFile);
@@ -78,10 +79,10 @@ class OutputWriterTest {
         OutputWriter writer = new OutputWriter(tempDir, "output.jsonl");
         writer.open();
         
-        writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com", "en", "test sentence", List.of(new LabelEntry("test", "test", null, 0, 4, true))));
+        writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com", "en", "test sentence", List.of(new LabelEntry("test", "test", null, 0, 4, true)), List.of()));
         writer.close();
         
-        Path outputFile = tempDir.resolve("output.jsonl");
+        Path outputFile = tempDir.resolve("output_valid.jsonl");
         String content = Files.readString(outputFile);
         
         // New format: one JSON per line (pretty-printed)
@@ -106,7 +107,7 @@ class OutputWriterTest {
         writer.writeForumEnd("http://example.com/forum1");
         writer.close();
         
-        Path outputFile = tempDir.resolve("output.jsonl");
+        Path outputFile = tempDir.resolve("output_valid.jsonl");
         String content = Files.readString(outputFile);
         
         assertTrue(content.contains("\"type\" : \"forum_start\""));
@@ -121,10 +122,10 @@ class OutputWriterTest {
         
         OutputWriter writer = new OutputWriter(subDir, "output.jsonl");
         writer.open();
-        writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com", "en", "test", List.of()));
+        writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com", "en", "test", List.of(), List.of()));
         writer.close();
         
-        assertTrue(Files.exists(subDir.resolve("output.jsonl")));
+        assertTrue(Files.exists(subDir.resolve("output_valid.jsonl")));
     }
     
     @Test
@@ -134,10 +135,10 @@ class OutputWriterTest {
         
         // Test with variant
         writer.writeData(new LabeledSentence("http://example.com/f1", "http://example.com", "en", "I caught musht", 
-            List.of(new LabelEntry("musht", "tilapia", "musht", 9, 14, true))));
+            List.of(new LabelEntry("musht", "tilapia", "musht", 9, 14, true)), List.of()));
         writer.close();
         
-        Path outputFile = tempDir.resolve("output.jsonl");
+        Path outputFile = tempDir.resolve("output_valid.jsonl");
         String content = Files.readString(outputFile);
         
         assertTrue(content.contains("\"canonical\" : \"tilapia\""));
