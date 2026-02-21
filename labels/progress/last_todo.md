@@ -2,6 +2,7 @@
 
 ## Current Tasks
 
+0. **Groq key injection** - refactor code to load groq_key.json and inject key into groq_config.json at runtime - pending
 1. **Add isValid field to LabelEntry** - pending
 2. **Create labels with isValid=false for rejected candidates** (blocked, skipList, !lemma.contains, LLM FALSE) - pending
 3. **Remove processedWords check** - allow all occurrences to be labeled - pending

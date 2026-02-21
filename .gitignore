@@ -31,5 +31,5 @@ Thumbs.db
 *.tmp
 *.bak
 
-# API Keys (local config)
-labels/src/main/resources/llm/groq.json
+# API Keys
+labels/src/main/resources/llm/groq_key.json
