@@ -305,7 +305,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                             variant = value;
                         }
                         
-                        found.add(new LabelEntry(surface, canonical, variant, wordStart, wordEnd));
+                        found.add(new LabelEntry(surface, canonical, variant, wordStart, wordEnd, true));
                         
                         if (countersManager != null) {
                             countersManager.incrementDictionary(value);

@@ -6,7 +6,7 @@
 1. **Test refactoring** - verify all tests work with new package names - completed
 2. **LLM providers refactor** - add enabled providers list in site config, add new properties in providerconfig - pending
 
-3. **Add isValid field to LabelEntry** - pending
+3. **Add isValid field to LabelEntry** - completed
 4. **Create labels with isValid=false for rejected candidates** (blocked, skipList, !lemma.contains, LLM FALSE) - pending
 5. **Remove processedWords check** - allow all occurrences to be labeled - completed
 6. **Update LabeledSentence** - add validLabels and invalidLabels lists (keep isValid in LabelEntry) - pending

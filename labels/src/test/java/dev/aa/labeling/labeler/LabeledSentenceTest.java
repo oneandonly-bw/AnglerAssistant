@@ -9,8 +9,8 @@ class LabeledSentenceTest {
     @Test
     void testConstructor() {
         List<LabelEntry> labels = List.of(
-            new LabelEntry("carp", "carp", null, 10, 14),
-            new LabelEntry("fish", "fish", null, 15, 19)
+            new LabelEntry("carp", "carp", null, 10, 14, true),
+            new LabelEntry("fish", "fish", null, 15, 19, true)
         );
         LabeledSentence sentence = new LabeledSentence("http://example.com/f1", "http://example.com/topic", "en", "I caught a carp and fish", labels);
         
@@ -22,7 +22,7 @@ class LabeledSentenceTest {
 
     @Test
     void testGetters() {
-        List<LabelEntry> labels = List.of(new LabelEntry("карп", "карп", null, 7, 11));
+        List<LabelEntry> labels = List.of(new LabelEntry("карп", "карп", null, 7, 11, true));
         LabeledSentence sentence = new LabeledSentence("http://example.com/f1", "http://example.com/topic", "ru", "я поймал карпа", labels);
         
         assertEquals("http://example.com/topic", sentence.topicUrl());
@@ -41,8 +41,8 @@ class LabeledSentenceTest {
     @Test
     void testMultipleLabels() {
         List<LabelEntry> labels = List.of(
-            new LabelEntry("carp", "carp", null, 14, 18),
-            new LabelEntry("pike", "pike", null, 23, 27)
+            new LabelEntry("carp", "carp", null, 14, 18, true),
+            new LabelEntry("pike", "pike", null, 23, 27, true)
         );
         LabeledSentence sentence = new LabeledSentence("http://example.com/f1", "http://example.com/topic", "en", "Fishing for carp and pike", labels);
         
@@ -52,7 +52,7 @@ class LabeledSentenceTest {
     @Test
     void testWithVariant() {
         List<LabelEntry> labels = List.of(
-            new LabelEntry("musht", "tilapia", "musht", 10, 15)
+            new LabelEntry("musht", "tilapia", "musht", 10, 15, true)
         );
         LabeledSentence sentence = new LabeledSentence("http://example.com/f1", "http://example.com/topic", "en", "I caught musht", labels);
         
