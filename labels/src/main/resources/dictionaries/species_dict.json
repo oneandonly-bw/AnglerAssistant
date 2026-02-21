@@ -1,0 +1,830 @@
+{
+  "metadata": {
+    "version": "0.1",
+    "last_update": "2026-01-22",
+    "dictionary_specific": {
+      "type_enum": {
+        "SPECIES": "Fish and aquatic species"
+      },
+      "water_type_enum": {
+        "FRESHWATER": "Freshwater type",
+        "SALTWATER": "Saltwater type"
+      },
+      "property_definitions": {
+        "venomous": "The organism INJECTS toxin via spines/stings. Dangerous to touch (e.g., Rabbitfish).",
+        "toxic": "The organism IS poisonous if INGESTED (eaten). Dangerous to consume (e.g., Pufferfish).",
+        "toxic_roe": "Specific parts (eggs/caviar) are poisonous, especially during spawning (e.g., Barbel)."
+      }
+    },
+    "global_definitions": {
+      "specificity_definitions": {
+        "MOSTLY_USED": "Name most commonly used by users.",
+        "CANONICAL": "Primary name per language; exactly one per UID",
+        "VARIANT": "Refinement of canonical; same UID, preserves user intent"
+      }
+    }
+  },
+  "data": [
+    {
+      "uid": "species_1769442340783",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "musht",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "tilapia",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "st. peter's fish",
+          "specificity": "VARIANT"
+        }
+      ],
+      "ru": [
+        {
+          "value": "тилапия",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "мушт",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "he": [
+        {
+          "value": "אמנון הירדן",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "אמנון הגליל",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "אמנון",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "מושט",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "FRESHWATER"
+        ]
+      }
+    },
+    {
+      "uid": "species_1769442340786",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "carp",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "common carp",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "mirror carp",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "leather carp",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "wild carp",
+          "specificity": "VARIANT"
+        }
+      ],
+      "ru": [
+        {
+          "value": "карп",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "сазан",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "зеркальный карп",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "голый карп",
+          "specificity": "VARIANT"
+        }
+      ],
+      "he": [
+        {
+          "value": "קרפיון",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "קרפיון מצוי",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "קרפיון ראי",
+          "specificity": "VARIANT"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "FRESHWATER"
+        ]
+      }
+    },
+    {
+      "uid": "species_1769442340788",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "silver carp",
+          "specificity": "CANONICAL"
+        }
+      ],
+      "ru": [
+        {
+          "value": "толстолобик",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "толстолоб",
+          "specificity": "VARIANT"
+        }
+      ],
+      "he": [
+        {
+          "value": "כסיף",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "קרפיון כסף",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "טולסטולוביק",
+          "specificity": "VARIANT"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "FRESHWATER"
+        ]
+      }
+    },
+    {
+      "uid": "species_1769442340790",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "white amur",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "grass carp",
+          "specificity": "VARIANT"
+        }
+      ],
+      "ru": [
+        {
+          "value": "белый амур",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "амур",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "he": [
+        {
+          "value": "אמור לבן",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "אמור",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "FRESHWATER"
+        ]
+      }
+    },
+    {
+      "uid": "species_1769442340791",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "barbel",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "binni",
+          "specificity": "VARIANT"
+        }
+      ],
+      "ru": [
+        {
+          "value": "усач",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "марена",
+          "specificity": "VARIANT"
+        }
+      ],
+      "he": [
+        {
+          "value": "בינית ארוכת ראש",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "בינית גדולת קשקש",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "בינית",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "חפף",
+          "specificity": "VARIANT"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "FRESHWATER"
+        ],
+        "toxic_roe": true
+      }
+    },
+    {
+      "uid": "species_1769442340792",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "catfish",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "clarias",
+          "specificity": "VARIANT"
+        }
+      ],
+      "ru": [
+        {
+          "value": "сом",
+          "specificity": "CANONICAL"
+        }
+      ],
+      "he": [
+        {
+          "value": "שפמנון",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "ברבוט",
+          "specificity": "VARIANT"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "FRESHWATER"
+        ]
+      }
+    },
+    {
+      "uid": "species_1769442340793",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "sea bass",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "european sea bass",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "branzino",
+          "specificity": "VARIANT"
+        }
+      ],
+      "ru": [
+        {
+          "value": "лаврак",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "сибас",
+          "specificity": "VARIANT"
+        }
+      ],
+      "he": [
+        {
+          "value": "לברק",
+          "specificity": "CANONICAL"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "SALTWATER"
+        ]
+      }
+    },
+    {
+      "uid": "species_1769442340794",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "gilt head seabream",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "gilt-head seabream",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "dorado",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "ru": [
+        {
+          "value": "морской лещ",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "дорадо",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "денис",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "he": [
+        {
+          "value": "דניס",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "צ'יפורה",
+          "specificity": "VARIANT"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "SALTWATER"
+        ]
+      }
+    },
+    {
+      "uid": "species_1769442340796",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "mullet",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "grey mullet",
+          "specificity": "VARIANT"
+        }
+      ],
+      "ru": [
+        {
+          "value": "кефаль",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "лобан",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "бури",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "he": [
+        {
+          "value": "בורי",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "קיפון",
+          "specificity": "VARIANT"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "SALTWATER",
+          "FRESHWATER"
+        ]
+      }
+    },
+    {
+      "uid": "species_1769442340798",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "amberjack",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "greater amberjack",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "intias",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "ru": [
+        {
+          "value": "амберджек",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "интиас",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "he": [
+        {
+          "value": "אינטיאס",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "שולה",
+          "specificity": "VARIANT"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "SALTWATER"
+        ]
+      }
+    },
+    {
+      "uid": "species_1769442340800",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "bluefish",
+          "specificity": "CANONICAL"
+        }
+      ],
+      "ru": [
+        {
+          "value": "луфарь",
+          "specificity": "CANONICAL"
+        }
+      ],
+      "he": [
+        {
+          "value": "גומבר",
+          "specificity": "CANONICAL"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "SALTWATER"
+        ]
+      }
+    },
+    {
+      "uid": "species_1769442340801",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "grouper",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "dusky grouper",
+          "specificity": "VARIANT"
+        }
+      ],
+      "ru": [
+        {
+          "value": "группер",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "локус",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "he": [
+        {
+          "value": "לוקוס",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "דקר",
+          "specificity": "VARIANT"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "SALTWATER"
+        ]
+      }
+    },
+    {
+      "uid": "species_1769442340802",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "barracuda",
+          "specificity": "CANONICAL"
+        }
+      ],
+      "ru": [
+        {
+          "value": "барракуда",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "сфирена",
+          "specificity": "VARIANT"
+        }
+      ],
+      "he": [
+        {
+          "value": "ברקודה",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "מליטה",
+          "specificity": "VARIANT"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "SALTWATER"
+        ]
+      }
+    },
+    {
+      "uid": "species_1769442340805",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "rabbitfish",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "spinefoot",
+          "specificity": "VARIANT"
+        }
+      ],
+      "ru": [
+        {
+          "value": "арис",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "коммунист",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "he": [
+        {
+          "value": "ארס",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "קומוניסט",
+          "specificity": "MOSTLY_USED"
+        },
+        {
+          "value": "סיכן",
+          "specificity": "VARIANT"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "SALTWATER"
+        ],
+        "venomous": true,
+        "reportable": true
+      }
+    },
+    {
+      "uid": "species_1769442340807",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "pufferfish",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "silver-cheeked toadfish",
+          "specificity": "VARIANT"
+        }
+      ],
+      "ru": [
+        {
+          "value": "иглобрюх",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "абу-нафха",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "абунафка",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "he": [
+        {
+          "value": "לגינון",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "אבו נפחא",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "SALTWATER"
+        ],
+        "toxic": true,
+        "reportable": true
+      }
+    },
+    {
+      "uid": "species_1769442340809",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "spanish mackerel",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "narrow-barred spanish mackerel",
+          "specificity": "VARIANT"
+        }
+      ],
+      "ru": [
+        {
+          "value": "узкополосая макрель",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "паламида",
+          "specificity": "MOSTLY_USED"
+        },
+        {
+          "value": "сардинка",
+          "specificity": "VARIANT"
+        },
+        {
+          "value": "бумти",
+          "specificity": "VARIANT"
+        }
+      ],
+      "he": [
+        {
+          "value": "פלמידה גדולה",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "פלמידה",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "SALTWATER"
+        ]
+      }
+    },
+    {
+      "uid": "species_1769442340811",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "squid",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "calamari",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "ru": [
+        {
+          "value": "кальмар",
+          "specificity": "CANONICAL"
+        }
+      ],
+      "he": [
+        {
+          "value": "דיונון",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "קלמארי",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "SALTWATER"
+        ],
+        "organism_type": "mollusk"
+      }
+    },
+    {
+      "uid": "species_1769442340812",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "cuttlefish",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "sepia",
+          "specificity": "VARIANT"
+        }
+      ],
+      "ru": [
+        {
+          "value": "каракатица",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "сепия",
+          "specificity": "VARIANT"
+        }
+      ],
+      "he": [
+        {
+          "value": "דיונון",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "סבידה",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "SALTWATER"
+        ],
+        "organism_type": "mollusk"
+      }
+    },
+    {
+      "uid": "species_1769442340814",
+      "type": "SPECIES",
+      "en": [
+        {
+          "value": "red mullet",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "goatfish",
+          "specificity": "VARIANT"
+        }
+      ],
+      "ru": [
+        {
+          "value": "султанка",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "барабулька",
+          "specificity": "MOSTLY_USED"
+        }
+      ],
+      "he": [
+        {
+          "value": "מולית אדומה",
+          "specificity": "CANONICAL"
+        },
+        {
+          "value": "ברבוניה",
+          "specificity": "VARIANT"
+        }
+      ],
+      "properties": {
+        "water_type": [
+          "SALTWATER"
+        ]
+      }
+    }
+  ]
+}

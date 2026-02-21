@@ -1,0 +1,129 @@
+# Angler Assistant – Downloader Subsystem Specification (OpenCode AI Ready)
+
+## 1. Purpose
+The Downloader retrieves forum topics one by one, cleans them, applies optional forum-specific transformations, and streams each topic immediately to an external extractor. It is modular, memory-safe, and supports both explicit topic lists and processing all topics in a forum.
+
+---
+
+## 2. Architecture
+
+### 2.1 Modules
+1. **Downloader (Core Module)**
+   - Downloads single topics.
+   - Applies generic cleaning.
+   - Performs per-topic memory check.
+   - Calls lifecycle hooks (`beforeCleaning`, `afterCleaning`).
+   - Passes topics to extractor via `processTopic(Topic topic)`.
+
+2. **Topics List Extractor**
+   - Extracts topic URLs from forum pages.
+   - Uses switch pattern based on forum type enum.
+   - Supports multiple forum engines via protected overridable methods.
+
+### 2.2 Forum Type Enum
+- `ForumType` enum with values: PHPBB, VBULLETIN.
+- Factory method `ForumType.fromValue(String)` for parsing.
+
+---
+
+## 3. Topic Object
+
+- **Identification (Immutable):** `sourceName`, `siteName`, `forumName`, `topicUrl`, `topicId`.
+- **Content (Mutable):** `content`.
+- **Structured Metadata (Mutable):** `author`, `creationDate`, `lastUpdateDate`, `subcategory`, `language`.
+- **Processing Metadata (Managed by Downloader):** `downloadTimestamp`, `processingStatus`, `errorFlags`.
+
+---
+
+## 4. Lifecycle Hooks
+
+- `beforeCleaning(Topic topic)` – called after download, before generic cleaning.
+- `afterCleaning(Topic topic)` – called after generic cleaning.
+- **Hook return behavior:**
+  - Returns updated `Topic` → Downloader overwrites content/metadata.
+  - Returns `null` → no changes.
+  - Exceptions in hooks are logged; topic processing continues.
+
+---
+
+## 5. Processing Flow (Single Topic)
+
+1. Downloader receives next topic URL from Type Adapter.
+2. Download raw HTML → `Topic.content`.
+3. 🔔 Call `beforeCleaning` hook → overwrite if non-null.
+4. Apply generic cleaning → overwrite `Topic.content`.
+5. 🔔 Call `afterCleaning` hook → overwrite if non-null.
+6. **Memory Check:** If topic size exceeds `maxJvmMemoryPercent` threshold → drop topic, log WARN.
+7. Pass topic immediately to extractor via `processTopic(Topic topic)`.
+8. Clear current topic from memory; repeat for next topic.
+
+---
+
+## 6. Memory Management
+
+- **Single-topic streaming** avoids batch buffering.
+- **Guardrail:** Drop topic if exceeding `maxJvmMemoryPercent` to prevent OOM.
+
+---
+
+## 7. Topic Extraction
+
+- No disk storage; strictly streaming.
+- Interface:
+
+public interface TopicExtractor {
+    void processTopic(Topic topic);
+}
+
+## 9. Topics List Extraction API
+
+public class TopicsListExtractor {
+    
+    public TopicsListExtractor() {}
+    
+    public TopicsListExtractor(String baseUrl) {}
+    
+    public List<String> getTopicsList(ForumType forumType, String forumUrl) {}
+    
+    public List<String> getTopicsList(ForumType forumType, String forumUrl, String sectionName) {}
+    
+    protected List<String> getPhpBBForumTopicsList(String forumUrl, String sectionName) {}
+    
+    protected List<String> getVBulletinForumTopicsList(String forumUrl) {}
+}
+
+## 10. Configuration Specification
+
+Example:
+
+{
+  "general": { "loggingLevel": "INFO", "debugMode": false },
+  "forum_adapter": { "enabled": true },
+  "type_adapter": {
+    "siteName": "israfish",
+    "forums": [
+      {
+        "forumName": "Forum 1",
+        "url": "[https://example.com/f1](https://example.com/f1)",
+        "hooksEnabled": true,
+        "topics": ["url1", "url2"]
+      }
+    ]
+  },
+  "downloader": {
+    "http": { "timeout": 15000, "retries": 3, "userAgent": "AnglerBot/1.0" },
+    "memory": { "maxJvmMemoryPercent": 80 }
+  },
+  "extractor": { "enabled": true }
+}
+
+## 11. Logging & Errors
+
+Structured Logs: Logs structured INFO/WARN messages for monitoring.
+Error Flags: errorFlags in Topic indicate failure reasons (e.g., DOWNLOAD_FAILED, MEMORY_THRESHOLD_EXCEEDED).
+Resilience: Critical validation errors fail-fast; individual topic errors are logged and skipped.
+
+12. Coding Standards & Workflow
+Environment: Java 13, Maven.
+Principles: Single Responsibility, Immutable Identifiers.
+Workflow: Build (mvn) -> Unit Test -> Update Progress.txt for every class

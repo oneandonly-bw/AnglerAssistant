@@ -1,0 +1,329 @@
+{
+  "metadata" : {
+    "version" : "0.3",
+    "languages" : [ "en", "ru", "he" ],
+    "dictionary_specific" : {
+      "type_enum" : {
+        "WATER_BODY" : "Any natural or artificial water body.",
+        "SPOT" : "A specific location on or near a water body.",
+        "LAKE" : "Natural inland body of freshwater, often large.",
+        "SEA" : "Large body of saltwater connected to an ocean.",
+        "RIVER" : "Flowing freshwater from higher to lower ground.",
+        "POND" : "Small still freshwater body, smaller than a lake.",
+        "RESERVOIR" : "Artificially created lake, usually for water storage.",
+        "CREEK" : "Small stream or minor river.",
+        "CANAL" : "Man-made waterway used for navigation, irrigation, or drainage.",
+        "ESTUARY" : "The tidal mouth of a large river, where the tide meets the stream."
+      }
+    },
+    "global_definitions" : {
+      "specificity_definitions" : {
+        "CANONICAL" : "Primary name per language; exactly one per language per UID",
+        "VARIANT" : "Refinement of canonical; same UID, preserves user intent",
+        "GENERIC" : "Broad or vague term, requires context",
+        "PHONETIC" : "Localized transliteration or pronunciation",
+        "SLANG" : "Colloquial or humorous expression",
+        "UNCLEAR" : "Unknown or newly discovered expression not yet mapped"
+      }
+    }
+  },
+  "data" : [ {
+    "uid" : "spots_1769442340821",
+    "type" : "SPOT",
+    "en" : [ {
+      "value" : "Bnei Israel Reservoir",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "Hispin Reservoir",
+      "specificity" : "GENERIC"
+    } ],
+    "ru" : [ {
+      "value" : "Водохранилище Бней Исраэль",
+      "specificity" : "CANONICAL"
+    } ],
+    "he" : [ {
+      "value" : "מאגר בני ישראל",
+      "specificity" : "CANONICAL"
+    } ],
+    "water_body" : "Bnei Israel Reservoir",
+    "coordinates" : {
+      "lat" : 32.846,
+      "lon" : 35.811
+    }
+  }, {
+    "uid" : "spots_1769442340823",
+    "type" : "SPOT",
+    "en" : [ {
+      "value" : "Bental Reservoir",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "Merom Golan Reservoir",
+      "specificity" : "GENERIC"
+    } ],
+    "ru" : [ {
+      "value" : "Водохранилище Бенталь",
+      "specificity" : "CANONICAL"
+    } ],
+    "he" : [ {
+      "value" : "מאגר בנטל",
+      "specificity" : "CANONICAL"
+    } ],
+    "water_body" : "Bental Reservoir",
+    "coordinates" : {
+      "lat" : 33.136,
+      "lon" : 35.823
+    }
+  }, {
+    "uid" : "spots_1769442340824",
+    "type" : "SPOT",
+    "en" : [ {
+      "value" : "Sea of Galilee",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "Lake Kinneret",
+      "specificity" : "GENERIC"
+    }, {
+      "value" : "Kinneret",
+      "specificity" : "GENERIC"
+    } ],
+    "ru" : [ {
+      "value" : "Галилейское море",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "Озеро Кинерет",
+      "specificity" : "GENERIC"
+    }, {
+      "value" : "Кинерет",
+      "specificity" : "GENERIC"
+    } ],
+    "he" : [ {
+      "value" : "ים הכנרת",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "כנרת",
+      "specificity" : "GENERIC"
+    } ],
+    "water_body" : "Sea of Galilee",
+    "coordinates" : {
+      "lat" : 32.833,
+      "lon" : 35.583
+    }
+  }, {
+    "uid" : "spots_1769442340826",
+    "type" : "SPOT",
+    "en" : [ {
+      "value" : "Jordan River",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "River Jordan",
+      "specificity" : "GENERIC"
+    } ],
+    "ru" : [ {
+      "value" : "Река Иордан",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "Иордан",
+      "specificity" : "GENERIC"
+    } ],
+    "he" : [ {
+      "value" : "נהר הירדן",
+      "specificity" : "CANONICAL"
+    } ],
+    "water_body" : "Jordan River",
+    "coordinates" : {
+      "lat" : 32.88,
+      "lon" : 35.56
+    }
+  }, {
+    "uid" : "spots_1769442340827",
+    "type" : "SPOT",
+    "en" : [ {
+      "value" : "Yarkon River",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "Nahal Yarkon",
+      "specificity" : "GENERIC"
+    } ],
+    "ru" : [ {
+      "value" : "Река Яркон",
+      "specificity" : "CANONICAL"
+    } ],
+    "he" : [ {
+      "value" : "נהר הירקון",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "נחל הירקון",
+      "specificity" : "GENERIC"
+    } ],
+    "water_body" : "Yarkon River",
+    "coordinates" : {
+      "lat" : 32.102,
+      "lon" : 34.805
+    }
+  }, {
+    "uid" : "spots_1769442340829",
+    "type" : "SPOT",
+    "en" : [ {
+      "value" : "Hadera Stream",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "Nahal Hadera",
+      "specificity" : "GENERIC"
+    } ],
+    "ru" : [ {
+      "value" : "Река Хадера",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "Нахаль Хадера",
+      "specificity" : "GENERIC"
+    } ],
+    "he" : [ {
+      "value" : "נחל חדרה",
+      "specificity" : "CANONICAL"
+    } ],
+    "water_body" : "Hadera Stream",
+    "coordinates" : {
+      "lat" : 32.471,
+      "lon" : 34.886
+    }
+  }, {
+    "uid" : "spots_1769442340830",
+    "type" : "SPOT",
+    "en" : [ {
+      "value" : "Birkat Ram",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "Lake Ram",
+      "specificity" : "GENERIC"
+    } ],
+    "ru" : [ {
+      "value" : "Биркат Рам",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "Озеро Рам",
+      "specificity" : "GENERIC"
+    } ],
+    "he" : [ {
+      "value" : "בריכת רם",
+      "specificity" : "CANONICAL"
+    } ],
+    "water_body" : "Birkat Ram",
+    "coordinates" : {
+      "lat" : 33.231,
+      "lon" : 35.765
+    }
+  }, {
+    "uid" : "spots_1769442340832",
+    "type" : "WATER_BODY",
+    "en" : [ {
+      "value" : "Nahal Aasi",
+      "specificity" : "CANONICAL"
+    } ],
+    "ru" : [ {
+      "value" : "Нахаль Аси",
+      "specificity" : "CANONICAL"
+    } ],
+    "he" : [ {
+      "value" : "נחל האסי",
+      "specificity" : "CANONICAL"
+    } ],
+    "coordinates" : {
+      "lat" : 32.586,
+      "lon" : 35.507
+    }
+  }, {
+    "uid" : "spots_1769442340834",
+    "type" : "SPOT",
+    "en" : [ {
+      "value" : "Nir David",
+      "specificity" : "CANONICAL"
+    } ],
+    "ru" : [ {
+      "value" : "Нир Давид",
+      "specificity" : "CANONICAL"
+    } ],
+    "he" : [ {
+      "value" : "ניר דוד",
+      "specificity" : "CANONICAL"
+    } ],
+    "water_body" : "Nahal Aasi",
+    "coordinates" : {
+      "lat" : 32.586,
+      "lon" : 35.507
+    },
+    "properties" : {
+      "access" : "restricted",
+      "allowed_visitors" : [ "Nir David Country Lodge visitors" ]
+    }
+  }, {
+    "uid" : "spots_1769442340835",
+    "type" : "SPOT",
+    "en" : [ {
+      "value" : "Bet Yosef",
+      "specificity" : "CANONICAL"
+    } ],
+    "ru" : [ {
+      "value" : "Бейт Йосеф",
+      "specificity" : "CANONICAL"
+    } ],
+    "he" : [ {
+      "value" : "בית יוסף",
+      "specificity" : "CANONICAL"
+    } ],
+    "water_body" : "Nahal Aasi",
+    "coordinates" : {
+      "lat" : 32.601,
+      "lon" : 35.52
+    },
+    "properties" : {
+      "access" : "public"
+    }
+  }, {
+    "uid" : "spots_1769442340836",
+    "type" : "SPOT",
+    "en" : [ {
+      "value" : "Beit Katif",
+      "specificity" : "CANONICAL"
+    } ],
+    "ru" : [ {
+      "value" : "Бейт Катиф",
+      "specificity" : "CANONICAL"
+    } ],
+    "he" : [ {
+      "value" : "בית קטיף",
+      "specificity" : "CANONICAL"
+    } ],
+    "water_body" : "Nahal Aasi",
+    "coordinates" : {
+      "lat" : 32.57,
+      "lon" : 35.498
+    },
+    "properties" : {
+      "access" : "restricted",
+      "allowed_visitors" : [ "Beit Katif Kibbutz members" ]
+    }
+  }, {
+    "uid" : "spots_1769442340838",
+    "type" : "SPOT",
+    "en" : [ {
+      "value" : "Kfar Yehud",
+      "specificity" : "CANONICAL"
+    } ],
+    "ru" : [ {
+      "value" : "Кфар Йехуд",
+      "specificity" : "CANONICAL"
+    } ],
+    "he" : [ {
+      "value" : "כפר יהוד",
+      "specificity" : "CANONICAL"
+    } ],
+    "water_body" : "Nahal Aasi",
+    "coordinates" : {
+      "lat" : 32.595,
+      "lon" : 35.515
+    },
+    "properties" : {
+      "access" : "public"
+    }
+  } ]
+}

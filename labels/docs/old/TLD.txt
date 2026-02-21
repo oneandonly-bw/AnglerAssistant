@@ -1,0 +1,193 @@
+Angler Assistant  
+Top-Level Description
+
+User / System Flow
+
+Main components: UI, LLM, Decision Engine, Dataset
+
+1. The user enters a question in free-text format.
+2. The question is sent to the LLM.
+3. The LLM converts the question into a structured query and passes it to the Decision Engine.
+4. The Decision Engine executes the query on the Dataset and returns the result to the LLM.
+5. The LLM composes a human-readable response and sends it back to the user.
+
+
+Dataset
+
+Dataset entries are stored in JSON format and include:
+
+1. Session start and end date/time
+2. Location: water body and specific spot
+3. Fishing method
+4. Equipment and gear
+5. Baits and groundbaits
+6. Environmental data (weather, wind, etc.)
+   6.1 Provided by the user  
+   6.2 Retrieved from external APIs
+7. Results: species, weight, quantity, etc.
+8. User comments and notes (tips, observations)
+9. Data source and confidence level (user, forum, API, inferred)
+
+Each data field includes source attribution and a confidence indicator.
+
+
+Dataset Creation
+
+The Dataset is built from two main sources:
+
+1. User-provided fishing session reports
+2. Data collected from online forums and fishing groups
+
+Environmental data (weather, wind, etc.) is enriched using external APIs.  
+The Dataset is designed to be extensible for future analytics and ML usage (e.g., tags, embeddings, derived features).
+
+
+User Fishing Reports
+
+A client/server system is provided for data collection. Fishing report entry is implemented as an interactive, guided process:
+
+1. The user submits fishing report information (form, free text, or voice input).
+2. The system validates and normalizes the submitted data.
+3. Raw input and normalized values are both stored.
+4. If some fields are missing, inconsistent, or unclear, the system requests clarification from the user.
+5. When the data is considered complete, the system presents a summary of the entered information.
+6. The user confirms or corrects the data.
+7. The number of interaction rounds is limited. If the limit is reached, the report is saved as incomplete with a reduced confidence level.
+
+
+Internet Data
+
+A number of downloaders will be developed to extract relevant data from forums/groups (one per forum).  
+
+## Downloader Architecture
+
+Each downloader implements a common interface that streams topics directly to the extractor.
+
+### Downloader Features
+
+- **HTML Pre-Cleaning**: Removes all images, links, scripts, styles, multimedia
+- **Metadata Tracking**: JSON metadata for topics
+
+### File Format
+
+Each topic file contains:
+1. JSON metadata header (url, language, dates, author, etc.)
+2. `---CONTENT---` separator
+3. Cleaned HTML content
+4. `---END---` marker
+
+### Storage Structure
+
+```
+data/labeled/<forum_output>.json
+```
+
+Output is in JSON Lines format (one JSON object per line).
+
+Data is stored with source attribution and timestamp to support incremental learning and future validation.
+
+
+LLM Fine-Tuning
+
+The LoRA approach will be used for fine-tuning.  
+Multiple LoRA adapters will be created, with one adapter per dataset entry field
+(e.g., species adapter, equipment adapter, bait adapter, etc.).
+
+Fine-tuning for each field is performed in multiple stages:
+
+
+Step 1: Dictionary-Based Labeled Data
+- Retrieve sentences that contain well-known terms from existing dictionaries.
+- Label these sentences with the corresponding canonical field values.
+- If a term variation is detected, the sentence is labeled using the canonical or most commonly used value.
+- Target size: ~4,000 labeled sentences per field.
+- The LLM is fine-tuned using this labeled dataset.
+
+
+Step 2: Synthetic Data (Correct Variations)
+- Generate synthetic data by modifying the original sentences to include valid variations.
+  Example: "carp" → "carps", label remains "carp".
+- Labels remain canonical and unchanged.
+- The goal is to improve robustness to morphological and lexical variation.
+
+
+Step 3: Mixed and Negative Examples
+- Feed the LLM with mixed sentences:
+  - Some sentences contain the target field value.
+  - Some sentences do not contain the target field value.
+- Sentences without the required data are labeled with a special "NO_VALUE" label.
+- This stage teaches the model to distinguish presence vs. absence of a field.
+
+
+Step 4: Synthetic Data (Correct and Incorrect Variations, No Labels)
+- Generate synthetic sentences containing both correct and incorrect values.
+- No labels are provided at inference time.
+- The LLM is asked to extract the target field from each sentence.
+- The extracted result is automatically validated against the expected outcome.
+- If the result is incorrect, new training examples are generated that include:
+  - The original input
+  - The incorrect model output
+  - The correct expected value
+
+
+Step 5: Error-Driven Reinforcement
+- The accumulated set of incorrect or low-confidence extraction cases is used for additional fine-tuning.
+- This step focuses on known failure modes and edge cases to improve extraction accuracy.
+
+
+Notes
+- Each LoRA adapter is trained independently per field.
+- Adapters can be composed or selectively enabled depending on the extraction task.
+- The process is iterative and supports continuous improvement as new data arrives.
+- Real forum data is prioritized; synthetic variations support robustness.
+- All data is stored with source attribution and confidence level for tracking and validation.
+- Dictionaries are expected to grow over time; as new terms are added, fine-tuning loops may be repeated to incorporate the updated knowledge.
+- Two lower layers of LLM will not be trained
+
+
+Process Flow Overview
+
+1. User Interaction
+   - The user asks questions or submits fishing reports (form, free text, or voice).
+   - Input is validated, normalized, and confirmed by the user.
+   - Incomplete or unclear entries trigger clarification requests.
+
+2. Dataset
+   - Validated user reports and extracted forum data are stored in the Dataset.
+   - Each field includes source attribution and a confidence indicator.
+   - Environmental data (weather, wind, etc.) is enriched via external APIs.
+
+3. LLM / Decision Engine
+   - The LLM converts user queries into structured queries.
+   - The Decision Engine executes queries on the Dataset and returns results.
+   - The LLM composes a human-readable response for the user.
+
+4. LLM Fine-Tuning Loop
+   - LoRA adapters are trained per dataset field (species, equipment, bait, etc.).
+   - Training stages include dictionary-labeled data, synthetic variations, mixed/negative examples, and error-driven reinforcement.
+   - Dictionaries are expected to grow over time.
+   - As new terms are added, fine-tuning loops are repeated to update the adapters.
+   - Feedback from errors, new forum posts, or updated user reports is incorporated iteratively.
+
+5. Iterative Improvement
+   - The system continuously improves as more data arrives.
+   - Confidence indicators and error tracking guide future fine-tuning.
+   - Adapters can be composed selectively for different extraction tasks.
+
+
+Hardware Requirements (Budget-Limited Setup,  less then 6000 shekels)
+
+- GPU: NVIDIA RTX 3090, 24 GB VRAM (main resource for LoRA fine-tuning)
+- CPU: Intel i5 or i7 (12th/13th gen recommended; mid-tier is sufficient)
+- RAM: 8–16 GB (enough for preprocessing and small-batch fine-tuning)
+- Storage: 1 TB SSD (flash-driven; stores extracted and labeled sentences, synthetic variations)
+- Power Supply: 1000 W
+
+Notes:
+- The 3090 GPU handles LoRA fine-tuning efficiently; batch size can be adjusted to fit VRAM limits.
+- CPU and RAM requirements are modest because:
+  - Data extraction, sentence splitting, and labeling are done in small chunks.
+  - Fine-tuning uses sentences one-by-one or in very small batches.
+  - The full dataset does not need to reside in memory during training.
+- SSD storage ensures fast access to the dataset during preprocessing and fine-tuning.
+- This setup is sufficient for handling several thousand entries and intermediate synthetic data without requiring a high-end CPU or large memory.

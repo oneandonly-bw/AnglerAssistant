@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "forumTypes": ["PHPBB", "VBULLETIN"],
+    "filterTypes": ["SECTION", "TOPIC"],
+    "languages": ["RU", "EN", "HE"]
+  },
+  "general": {
+    "loggingLevel": "INFO"
+  },
+  "site": {
+    "siteId": "israfish",
+    "name": "IsraFish Forum",
+    "baseUrl": "https://forum.israfish.co.il/",
+    "httpTimeout": 30000,
+    "httpUserAgent": "Mozilla/5.0 (compatible; AnglerAssistant/1.0)"
+  },
+  "runtime": {
+    "memoryThreshold": 0.8,
+    "maxRetries": 3
+  },
+  "labeler": {
+    "enabled": true,
+    "minSentenceLength": 15,
+    "maxSentenceLengthForContext": 200,
+    "minLanguageRatio": 0,
+    "maxSpecialCharRatio": 0.2,
+    "dictionaryPaths": [
+      "dictionaries/species_dict.json"
+    ],
+    "dataDirectory": "C:/AnglerAsistant/Fine-tuning/data",
+    "outputDirectory": "C:/AnglerAsistant/Fine-tuning/output/labels"
+  },
+  "forums": [
+    {
+      "url": "https://forum.israfish.co.il/viewforum.php?f=7",
+      "forumName": "Пресноводная Рыбалка",
+      "path": "fresh_water",
+      "enabled": true,
+      "forumType": "PHPBB",
+      "language": "RU",
+      "exclude": [
+        { "name": "Объявления", "type": "SECTION" }
+      ]
+    },
+    {
+      "url": "https://forum.israfish.co.il/viewforum.php?f=66",
+      "forumName": "Морская Рыбалка",
+      "path": "salt_water",
+      "enabled": true,
+      "forumType": "PHPBB",
+      "language": "RU",
+      "include": [
+        { "name": "Темы", "type": "SECTION" }
+      ]
+    }
+  ]
+}

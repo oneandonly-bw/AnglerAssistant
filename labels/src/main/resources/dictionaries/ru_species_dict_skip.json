@@ -1,0 +1,235 @@
+{
+  "metadata": {
+    "version": "0.1",
+    "last_update": "2026-02-04",
+    "dictionary_specific": {
+      "type_enum": {
+        "SPECIES": "Fish and aquatic species"
+      },
+      "water_type_enum": {
+        "FRESHWATER": "Freshwater type",
+        "SALTWATER": "Saltwater type"
+      },
+      "property_definitions": {
+        "venomous": "The organism INJECTS toxin via spines/stings. Dangerous to touch (e.g., Rabbitfish).",
+        "toxic": "The organism IS poisonous if INGESTED (eaten). Dangerous to consume (e.g., Pufferfish).",
+        "toxic_roe": "Specific parts (eggs/caviar) are poisonous, especially during spawning (e.g., Barbel)."
+      }
+    },
+    "global_definitions": {
+      "specificity_definitions": {
+        "MOSTLY_USED": "Name most commonly used by users.",
+        "CANONICAL": "Primary name per language; exactly one per UID",
+        "VARIANT": "Refinement of canonical; same UID, preserves user intent"
+      }
+    }
+  },
+  "data": [
+    {
+      "uid": "species_ru_001",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "окунь", "specificity": "CANONICAL"},
+        {"value": "окушок", "specificity": "VARIANT"},
+        {"value": "окунишка", "specificity": "VARIANT"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_002",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "щука", "specificity": "CANONICAL"},
+        {"value": "шурёнок", "specificity": "VARIANT"},
+        {"value": "шнурок", "specificity": "VARIANT"},
+        {"value": "щучка", "specificity": "VARIANT"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_003",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "плотва", "specificity": "CANONICAL"},
+        {"value": "плотвичка", "specificity": "VARIANT"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_004",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "лещ", "specificity": "CANONICAL"},
+        {"value": "подлещик", "specificity": "VARIANT"},
+        {"value": "лещик", "specificity": "VARIANT"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_005",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "карась", "specificity": "CANONICAL"},
+        {"value": "золотой карась", "specificity": "VARIANT"},
+        {"value": "серебряный карась", "specificity": "VARIANT"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_006",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "голавль", "specificity": "CANONICAL"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_007",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "язь", "specificity": "CANONICAL"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_008",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "судак", "specificity": "CANONICAL"},
+        {"value": "судачок", "specificity": "VARIANT"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_009",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "сом", "specificity": "CANONICAL"},
+        {"value": "сомик", "specificity": "VARIANT"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_010",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "налим", "specificity": "CANONICAL"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_011",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "линь", "specificity": "CANONICAL"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_012",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "краснопёрка", "specificity": "CANONICAL"},
+        {"value": "краснопёрочка", "specificity": "VARIANT"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_013",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "сазан", "specificity": "CANONICAL"},
+        {"value": "зеркальный карп", "specificity": "VARIANT"},
+        {"value": "голый карп", "specificity": "VARIANT"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_014",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "пескарь", "specificity": "CANONICAL"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_015",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "уклейка", "specificity": "CANONICAL"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_016",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "вьюн", "specificity": "CANONICAL"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_017",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "снеток", "specificity": "CANONICAL"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_018",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "жерех", "specificity": "CANONICAL"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    },
+    {
+      "uid": "species_ru_019",
+      "type": "SPECIES",
+      "ru": [
+        {"value": "густера", "specificity": "CANONICAL"},
+        {"value": "густёрка", "specificity": "VARIANT"}
+      ],
+      "properties": {
+        "water_type": ["FRESHWATER"]
+      }
+    }
+  ]
+}

@@ -1,0 +1,1340 @@
+{
+  "metadata" : {
+    "version": "0.1",
+    "languages": [
+      "en",
+      "ru",
+      "he"
+    ],
+    "dictionary_specific": {
+      "type_enum": {
+        "NATURAL_BAIT": "Live and natural bait",
+        "SOFT_LURE": "Soft artificial lures (silicone)",
+        "HARD_LURE": "Hard lures (wobblers, spoons, spinners, etc)",
+        "GROUNDBAIT": "Groundbait and attractants",
+        "FLY": "Fly fishing flies"
+      }
+    },
+    "global_definitions": {
+      "specificity_definitions": {
+        "MOSTLY_USED": "Name most commonly used by users.",
+        "CANONICAL": "Primary name per language; exactly one per UID",
+        "VARIANT": "Refinement of canonical; same UID, preserves user intent"
+      }
+    },
+    "data": [
+      {
+        "uid": "baits_1769442340672",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "earthworm",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "red worm",
+            "specificity": "VARIANT"
+          },
+          {
+            "value": "garden worm",
+            "specificity": "VARIANT"
+          },
+          {
+            "value": "dung worm",
+            "specificity": "VARIANT"
+          }
+        ],
+        "ru": [
+          {
+            "value": "червь",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "дождевой червь",
+            "specificity": "VARIANT"
+          },
+          {
+            "value": "земляной червь",
+            "specificity": "VARIANT"
+          },
+          {
+            "value": "навозный червь",
+            "specificity": "VARIANT"
+          }
+        ],
+        "he": [
+          {
+            "value": "תולעת",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "תולעת אדמה",
+            "specificity": "VARIANT"
+          },
+          {
+            "value": "תולעת זבל",
+            "specificity": "VARIANT"
+          }
+        ],
+        "properties": {
+          "live": true,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340681",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "maggot",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "fly larva",
+            "specificity": "VARIANT"
+          }
+        ],
+        "ru": [
+          {
+            "value": "опарыш",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "личинка мухи",
+            "specificity": "VARIANT"
+          },
+          {
+            "value": "белыш",
+            "specificity": "VARIANT"
+          },
+          {
+            "value": "опарик",
+            "specificity": "VARIANT"
+          }
+        ],
+        "he": [
+          {
+            "value": "רימה",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": true,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340682",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "bloodworm",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "мотыль",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "תולעת דם",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": true,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340684",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "mealworm",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "мучной червь",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "תולעת קמח",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": true,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340686",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "corn",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "кукуруза",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "תירס",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340687",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "bread",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "хлеб",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "мякиш",
+            "specificity": "VARIANT"
+          }
+        ],
+        "he": [
+          {
+            "value": "לחם",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": true,
+          "bottom_use": false
+        }
+      },
+      {
+        "uid": "baits_1769442340688",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "dough",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "тесто",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "בצק",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": true,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340691",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "pearl barley",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "перловка",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "גריסי פנינה",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340692",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "wheat",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "пшеница",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "חיטה",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340693",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "chickpea",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "garbanzo",
+            "specificity": "VARIANT"
+          }
+        ],
+        "ru": [
+          {
+            "value": "нут",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "хумус",
+            "specificity": "MOSTLY_USED"
+          }
+        ],
+        "he": [
+          {
+            "value": "חומוס",
+            "specificity": "MOSTLY_USED"
+          },
+          {
+            "value": "חומוס יבש",
+            "specificity": "GENERIC"
+          },
+          {
+            "value": "ס יבש",
+            "specificity": "VARIANT"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340694",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "peas",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "горох",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "אפונה",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340695",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "potato",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "картофель",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "картошка",
+            "specificity": "MOSTLY_USED"
+          }
+        ],
+        "he": [
+          {
+            "value": "תפוח אדמה",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340697",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "shrimp",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "prawn",
+            "specificity": "VARIANT"
+          }
+        ],
+        "ru": [
+          {
+            "value": "креветка",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "שרימפס",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": true,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340699",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "squid",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "кальмар",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "קלמרי",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": true,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340700",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "fish piece",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "cut bait",
+            "specificity": "VARIANT"
+          }
+        ],
+        "ru": [
+          {
+            "value": "кусок рыбы",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "рыбная нарезка",
+            "specificity": "VARIANT"
+          }
+        ],
+        "he": [
+          {
+            "value": "חתיכת דג",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340702",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "meat piece",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "raw meat bait",
+            "specificity": "VARIANT"
+          }
+        ],
+        "ru": [
+          {
+            "value": "кусок мяса",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "חתיכת בשר",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340703",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "liver",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "печень",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "כבד",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340704",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "cheese",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "сыр",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "גבינה",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340707",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "sausage",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "колбаса",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "נקניק",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340709",
+        "type": "NATURAL_BAIT",
+        "en": [
+          {
+            "value": "cat food balls",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "кошачий корм",
+            "specificity": "MOSTLY_USED"
+          }
+        ],
+        "he": [
+          {
+            "value": "אוכל לחתולים",
+            "specificity": "MOSTLY_USED"
+          },
+          {
+            "value": "כדורי אוכל יבש לחתולים",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340711",
+        "type": "SOFT_LURE",
+        "en": [
+          {
+            "value": "soft plastic worm",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "rubber worm",
+            "specificity": "VARIANT"
+          }
+        ],
+        "ru": [
+          {
+            "value": "силиконовый червь",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "резиновый червь",
+            "specificity": "VARIANT"
+          }
+        ],
+        "he": [
+          {
+            "value": "תולעת סיליקון",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340712",
+        "type": "SOFT_LURE",
+        "en": [
+          {
+            "value": "soft grub",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "силиконовая личинка",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "זחל סיליקון",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340713",
+        "type": "SOFT_LURE",
+        "en": [
+          {
+            "value": "soft shad",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "силиконовый шэд",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "שד סיליקון",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340715",
+        "type": "SOFT_LURE",
+        "en": [
+          {
+            "value": "soft fish imitation",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "rubber minnow",
+            "specificity": "VARIANT"
+          }
+        ],
+        "ru": [
+          {
+            "value": "силиконка",
+            "specificity": "MOSTLY_USED"
+          },
+          {
+            "value": "силиконовая рыбка",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "דג סיליקון",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340717",
+        "type": "SOFT_LURE",
+        "en": [
+          {
+            "value": "soft creature bait",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "силиконовое насекомое",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "יצור סיליקון",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340718",
+        "type": "SOFT_LURE",
+        "en": [
+          {
+            "value": "soft grub tail",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "силиконовый хвостик",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "זנב סיליקון",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340719",
+        "type": "SOFT_LURE",
+        "en": [
+          {
+            "value": "soft twister",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "твистер",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "טוויסטר סיליקון",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340720",
+        "type": "HARD_LURE",
+        "en": [
+          {
+            "value": "wobbler",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "crankbait",
+            "specificity": "GENERIC"
+          }
+        ],
+        "ru": [
+          {
+            "value": "воблер",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "וובלר",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340721",
+        "type": "HARD_LURE",
+        "en": [
+          {
+            "value": "spoon",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "ложка",
+            "specificity": "MOSTLY_USED"
+          }
+        ],
+        "he": [
+          {
+            "value": "כף דג",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340722",
+        "type": "HARD_LURE",
+        "en": [
+          {
+            "value": "spinner",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "вертушка",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "ספינר",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340723",
+        "type": "HARD_LURE",
+        "en": [
+          {
+            "value": "jerkbait",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "джеркбейт",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "ג'רקבייט",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340728",
+        "type": "HARD_LURE",
+        "en": [
+          {
+            "value": "minnow lure",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "минноу",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "מינו לור",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340729",
+        "type": "HARD_LURE",
+        "en": [
+          {
+            "value": "topwater popper",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "поппер",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "פופר שטח מים",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": true,
+          "bottom_use": false
+        }
+      },
+      {
+        "uid": "baits_1769442340730",
+        "type": "HARD_LURE",
+        "en": [
+          {
+            "value": "stickbait",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "стикбейт",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "סטיקבייט",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": true,
+          "bottom_use": false
+        }
+      },
+      {
+        "uid": "baits_1769442340732",
+        "type": "HARD_LURE",
+        "en": [
+          {
+            "value": "crankbait",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "кренкбейт",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "קרנקבייט",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340735",
+        "type": "FLY",
+        "en": [
+          {
+            "value": "fly",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "dry fly",
+            "specificity": "VARIANT"
+          },
+          {
+            "value": "wet fly",
+            "specificity": "VARIANT"
+          },
+          {
+            "value": "soft hackle fly",
+            "specificity": "VARIANT"
+          }
+        ],
+        "ru": [
+          {
+            "value": "мушка",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "сухая мушка",
+            "specificity": "VARIANT"
+          },
+          {
+            "value": "мокрая мушка",
+            "specificity": "VARIANT"
+          },
+          {
+            "value": "мягкая мушка",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "זבוב",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "זבוב יבש",
+            "specificity": "VARIANT"
+          },
+          {
+            "value": "זבוב רטוב",
+            "specificity": "VARIANT"
+          },
+          {
+            "value": "זבוב נוצות רכות",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": true,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340736",
+        "type": "FLY",
+        "en": [
+          {
+            "value": "nymph fly",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "нимфа",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "נימפה",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340738",
+        "type": "FLY",
+        "en": [
+          {
+            "value": "streamer fly",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "стример",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "סטרימר",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true
+        }
+      },
+      {
+        "uid": "baits_1769442340739",
+        "type": "FLY",
+        "en": [
+          {
+            "value": "emerger fly",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "эмерджер",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "אמֶרג'ר",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": true,
+          "bottom_use": false
+        }
+      },
+      {
+        "uid": "baits_1769442340741",
+        "type": "FLY",
+        "en": [
+          {
+            "value": "caddis fly",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "каддис",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "קדיס",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": true,
+          "bottom_use": false
+        }
+      },
+      {
+        "uid": "baits_1769442340742",
+        "type": "FLY",
+        "en": [
+          {
+            "value": "mayfly",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "ru": [
+          {
+            "value": "майфлай",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "he": [
+          {
+            "value": "מייפליי",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": true,
+          "bottom_use": false
+        }
+      },
+      {
+        "uid": "baits_1769442340743",
+        "type": "GROUNDBAIT",
+        "en": [
+          {
+            "value": "groundbait mix",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "bait mix",
+            "specificity": "VARIANT"
+          }
+        ],
+        "ru": [
+          {
+            "value": "прикормка",
+            "specificity": "CANONICAL"
+          },
+          {
+            "value": "закормочная смесь",
+            "specificity": "VARIANT"
+          }
+        ],
+        "he": [
+          {
+            "value": "תערובת פיתוי",
+            "specificity": "CANONICAL"
+          }
+        ],
+        "properties": {
+          "live": false,
+          "surface_use": false,
+          "bottom_use": true,
+          "components": [
+            {
+              "canonical": "corn",
+              "type": "NATURAL_BAIT"
+            },
+            {
+              "canonical": "pellets",
+              "type": "GROUNDBAIT"
+            },
+            {
+              "canonical": "bread_crumbs",
+              "type": "GROUNDBAIT"
+            },
+            {
+              "canonical": "flavored_powder",
+              "type": "GROUNDBAIT"
+            },
+            {
+              "canonical": "liquid_attractant",
+              "type": "GROUNDBAIT"
+            }
+          ]
+        }
+      }
+    ]
+  }
+}

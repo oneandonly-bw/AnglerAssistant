@@ -1,0 +1,62 @@
+{
+  "meta": {
+    "// Optional - metadata about supported forum types, filters, and languages": "",
+    "forumTypes": ["PHPBB", "VBULLETIN"],
+    "filterTypes": ["SECTION", "TOPIC"],
+    "languages": ["RU", "EN", "HE"]
+  },
+  "general": {
+    "// Required": "",
+    "loggingLevel": "INFO // TRACE | DEBUG | INFO | WARN | ERROR"
+  },
+  "site": {
+    "// Required": "",
+    "siteId": "string, unique site identifier",
+    "name": "string, human-readable site name",
+    "baseUrl": "string, base URL for making absolute URLs",
+    "// Optional": "",
+    "httpTimeout": "integer, HTTP request timeout in milliseconds (default: 30000)",
+    "httpUserAgent": "string, User-Agent string for HTTP requests"
+  },
+  "runtime": {
+    "// Required": "",
+    "memoryThreshold": "number, memory threshold (0.1-1.0) for memory check",
+    "maxRetries": "integer, maximum retry attempts for failed requests"
+  },
+  "labeler": {
+    "// Required": "",
+    "enabled": "boolean, enable topic labeler",
+    "// Optional": "",
+    "minSentenceLength": "integer, minimum sentence character length (default: 15)",
+    "maxSentenceLengthForContext": "integer, max sentence length before context extraction (default: 200)",
+    "minLanguageRatio": "number, min % of target language chars 0.0-1.0 (default: 0.3)",
+    "maxSpecialCharRatio": "number, max % of special chars allowed 0.0-1.0 (default: 0.2)",
+    "dictionaryPaths": ["array, list of dictionary JSON file paths"],
+    "outputDirectory": "string, output directory path",
+    "outputFileName": "string, output filename"
+  },
+  "forums": [
+    {
+      "// Required": "",
+      "url": "string, complete URL to forum section",
+      "forumName": "string, human-readable forum section name",
+      "path": "string, storage path category (fresh_water, salt_water, etc.)",
+      "enabled": "boolean, enable/disable this forum section",
+      "forumType": "string, forum engine type (PHPBB or VBULLETIN)",
+      "language": "string, content language (RU, EN, or HE)",
+      "// Optional": "",
+      "include": [
+        {
+          "name": "string, section/topic name to include",
+          "type": "string, filter type (SECTION or TOPIC)"
+        }
+      ],
+      "exclude": [
+        {
+          "name": "string, section/topic name to exclude",
+          "type": "string, filter type (SECTION or TOPIC)"
+        }
+      ]
+    }
+  ]
+}

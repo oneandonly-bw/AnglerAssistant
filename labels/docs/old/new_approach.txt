@@ -1,0 +1,66 @@
+Psedu-code
+
+class Laberer {
+	HashSet<String> lemmasSeen;
+	HashSet<String> termsSeen;
+	List<String> dictionary
+	LLMAdapter adapter
+	
+	Laberer (Configuration config) {
+		
+		lemmasSeen = loadSetFile(config.getLemmaSeenFile())
+		termsSeen =  loadSetFile(config.getTermsSeenFile())
+		dictionary = loadDictionary(config.getDictionary()));	
+		adapter = getLLMAdapter();
+		
+	}
+	 
+	 
+	 processSentance (String sentance) {
+		 
+		 normalized = normalizeSentance(sentance) //lower case, remove punctuation, double spacing, etc
+		 
+		 for (string key:  dictionary){
+			 if (normalized.contains(key)) {
+				 candidate = extract candidate();
+			 } else {
+				 continue
+			 }
+			 
+			 if (termsSeen.contains(candidate) {
+				  add label to sentance
+				  continue;
+			 }
+			 
+			if (key.equals(candidate)) {
+				add candidate to termsSeen
+			    add label to sentance
+               continue;			  
+		    }
+			
+			lemma = getLemma(candidate)
+			if (lemmasSeen.contains(lemma) {
+				add candidate to termsSeen
+				 add label to sentance
+				 continue;
+			}
+			
+			if (key.equals(lemma) {
+				add candidate to termsSeen
+				add lemma to lemmasSeen
+			    add label to sentance
+               continue;		
+			}
+			
+			Response resp = adapter.sendPrompt(prompt, normalized, key, candidate);
+			if (resp is positive) {
+				add candidate to termsSeen
+				add lemma to lemmasSeen
+			    add label to sentance
+			}
+			
+		 }
+	 }
+	 
+	 on exit save lemmasSeen and termsSeen;
+}

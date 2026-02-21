@@ -1,0 +1,32 @@
+[
+  {
+    type: data
+    forumUrl: used as entry UID
+    topicUrl: used as entry UID 
+    lang: ru
+    
+    "text": "Ловил на навозного червя утром",
+    "labels": [
+      {
+        "surface": "навозного червя",
+        "canonical": "червь",
+        "variant": "навозный червь",
+        "start": 9,
+        "end": 26
+      }
+    ]
+  }
+]
+
+✅ Rules embedded in this snippet:
+
+surface = exact text from sentence
+canonical = required CANONICAL dictionary entry
+variant = optional, only for MOSTLY_USED/VARIANT -> dictionary entries marked as VARIANT or MOSTLY_USED are treated as VARIANT
+start / end = offsets of surface in sentence (end exclusive)
+
+forumUrl = forum identifier
+topicUrl = topic identifier
+lang = language code (ru/en/he)
+
+This is fully consistent for training your LoRA or labeling datasets.

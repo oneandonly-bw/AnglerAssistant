@@ -1,0 +1,240 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.example</groupId>
+    <artifactId>labeler-factory</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+
+        <!-- Lucene Morfologik Analyzer (for morphological lemmatization) -->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analyzers-morfologik</artifactId>
+            <version>10.11.0</version>
+        </dependency>
+
+    </dependencies>
+
+</project>
+--------------------------------
+package com.example;
+
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.morfologik.MorfologikFilter;
+import org.apache.lucene.analysis.standard.StandardTokenizer;
+import org.apache.lucene.morfologik.plugins.PolishStemFilterFactory;
+import org.apache.lucene.util.AttributeFactory;
+
+import java.io.IOException;
+import java.io.StringReader;
+import java.util.HashSet;
+import java.util.Set;
+
+/*
+   FULL PLUGIN + FACTORY + ENGINE DEMO
+   USING LUCENE MORFOLOGIK FOR RUSSIAN
+   Java 17
+*/
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+
+        Language lang = Language.RU;
+
+        LanguageMatcher matcher = MatcherFactory.getMatcher(lang);
+
+        LabelEngine engine = new LabelEngine(matcher);
+
+        String sentence = "Карпятник взял карповик и поймал двух карпов.";
+
+        boolean result = engine.containsMatch(
+                sentence.toLowerCase(),
+                "карп"
+        );
+
+        System.out.println("Match found: " + result);
+    }
+}
+
+/* ============================================================
+                          LANGUAGE ENUM
+   ============================================================ */
+enum Language {
+    RU,
+    EN,
+    HE
+}
+
+/* ============================================================
+                          FACTORY
+   ============================================================ */
+class MatcherFactory {
+
+    public static LanguageMatcher getMatcher(Language lang)
+            throws IOException {
+
+        return switch (lang) {
+            case RU -> new RuMatcher(new RussianLemmaService());
+            case EN -> new EnMatcher();
+            case HE -> new HeMatcher();
+        };
+    }
+}
+
+/* ============================================================
+                          INTERFACE
+   ============================================================ */
+interface LanguageMatcher {
+    boolean areSame(String dictWord, String textWord);
+}
+
+/* ============================================================
+                       RUSSIAN MORFOLOGIK PLUGIN
+   ============================================================ */
+class RuMatcher implements LanguageMatcher {
+
+    private final RussianLemmaService lemmaService;
+
+    public RuMatcher(RussianLemmaService lemmaService) {
+        this.lemmaService = lemmaService;
+    }
+
+    @Override
+    public boolean areSame(String dictWord, String textWord) {
+
+        String dictLemma = lemmaService.getLemma(dictWord);
+        String textLemma = lemmaService.getLemma(textWord);
+
+        return dictLemma.equals(textLemma);
+    }
+}
+
+class RussianLemmaService {
+
+    public String getLemma(String word) {
+
+        try (TokenStream ts = createTokenStream(word)) {
+
+            MorfologikFilter mf = new MorfologikFilter(ts);
+
+            LemmaCollector collector = new LemmaCollector();
+            mf.reset();
+
+            while (mf.incrementToken()) {
+                collector.collect(mf);
+            }
+
+            return collector.getBestLemma();
+
+        } catch (Exception ignored) {
+        }
+
+        return word;
+    }
+
+    private TokenStream createTokenStream(String word) {
+        StandardTokenizer tokenizer = new StandardTokenizer();
+        tokenizer.setReader(new StringReader(word));
+        tokenizer.reset();
+        return tokenizer;
+    }
+}
+
+class LemmaCollector {
+
+    private final Set<String> lemmas = new HashSet<>();
+
+    public void collect(MorfologikFilter filter) throws IOException {
+        filter.getAttribute(org.apache.lucene.analysis.tokenattributes.CharTermAttribute.class);
+        lemmas.add(filter.getAttribute(
+                org.apache.lucene.analysis.tokenattributes.CharTermAttribute.class
+        ).toString());
+    }
+
+    public String getBestLemma() {
+        return lemmas.stream().findFirst().orElse("");
+    }
+}
+
+/* ============================================================
+                          ENGLISH PLUGIN (STUB)
+   ============================================================ */
+class EnMatcher implements LanguageMatcher {
+    @Override
+    public boolean areSame(String dictWord, String textWord) {
+        throw new UnsupportedOperationException(
+                "English matcher not implemented yet"
+        );
+    }
+}
+
+/* ============================================================
+                          HEBREW PLUGIN (STUB)
+   ============================================================ */
+class HeMatcher implements LanguageMatcher {
+    @Override
+    public boolean areSame(String dictWord, String textWord) {
+        throw new UnsupportedOperationException(
+                "Hebrew matcher not implemented yet"
+        );
+    }
+}
+
+/* ============================================================
+                          LABEL ENGINE
+   ============================================================ */
+class LabelEngine {
+
+    private final LanguageMatcher matcher;
+
+    public LabelEngine(LanguageMatcher matcher) {
+        this.matcher = matcher;
+    }
+
+    public boolean containsMatch(String sentence, String dictWord) {
+
+        int index = 0;
+
+        while ((index = sentence.indexOf(dictWord, index)) != -1) {
+
+            String token = extractToken(sentence, index);
+
+            if (matcher.areSame(dictWord, token)) {
+                return true;
+            }
+
+            index++;
+        }
+
+        return false;
+    }
+
+    private String extractToken(String sentence, int position) {
+
+        int start = position;
+        int end = position;
+
+        while (start > 0 &&
+               Character.isLetter(sentence.charAt(start - 1))) {
+            start--;
+        }
+
+        while (end < sentence.length() &&
+               Character.isLetter(sentence.charAt(end))) {
+            end++;
+        }
+
+        return sentence.substring(start, end);
+    }
+}

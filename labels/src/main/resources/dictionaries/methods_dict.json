@@ -1,0 +1,157 @@
+{
+  "metadata" : {
+    "version" : "0.1",
+    "last_update" : "2026-01-22",
+    "dictionary_specific" : {
+      "type_enum" : {
+        "METHOD" : "Fishing methods"
+      }
+    },
+    "global_definitions" : {
+      "specificity_definitions" : {
+        "CANONICAL" : "Primary name per language; exactly one per language per UID",
+        "VARIANT" : "Refinement of canonical; same UID, preserves user intent",
+        "GENERIC" : "Broad or vague term, requires context",
+        "PHONETIC" : "Localized transliteration or pronunciation",
+        "SLANG" : "Colloquial or humorous expression",
+        "UNCLEAR" : "Unknown or newly discovered expression not yet mapped"
+      }
+    }
+  },
+  "data" : [ {
+    "uid" : "methods_1769442340768",
+    "type" : "METHOD",
+    "en" : [ {
+      "value" : "bottom fishing",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "ledgering",
+      "specificity" : "PHONETIC"
+    } ],
+    "ru" : [ {
+      "value" : "донка",
+      "specificity" : "CANONICAL"
+    } ],
+    "he" : [ {
+      "value" : "דיג קרקעי",
+      "specificity" : "CANONICAL"
+    } ],
+    "properties" : {
+      "casting_required" : false,
+      "active_reeling" : false,
+      "water_type" : [ "freshwater", "saltwater" ]
+    }
+  }, {
+    "uid" : "methods_1769442340771",
+    "type" : "METHOD",
+    "en" : [ {
+      "value" : "feeder fishing",
+      "specificity" : "CANONICAL"
+    } ],
+    "ru" : [ {
+      "value" : "фидер",
+      "specificity" : "CANONICAL"
+    } ],
+    "he" : [ {
+      "value" : "פידר",
+      "specificity" : "CANONICAL"
+    } ],
+    "properties" : {
+      "casting_required" : true,
+      "active_reeling" : false,
+      "water_type" : [ "freshwater" ]
+    }
+  }, {
+    "uid" : "methods_1769442340772",
+    "type" : "METHOD",
+    "en" : [ {
+      "value" : "carp fishing",
+      "specificity" : "CANONICAL"
+    } ],
+    "ru" : [ {
+      "value" : "ловля карпа",
+      "specificity" : "CANONICAL"
+    } ],
+    "he" : [ {
+      "value" : "דיג קרפיון",
+      "specificity" : "CANONICAL"
+    } ],
+    "properties" : {
+      "casting_required" : true,
+      "active_reeling" : false,
+      "water_type" : [ "freshwater" ]
+    }
+  }, {
+    "uid" : "methods_1769442340773",
+    "type" : "METHOD",
+    "en" : [ {
+      "value" : "spinning",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "casting",
+      "specificity" : "GENERIC"
+    } ],
+    "ru" : [ {
+      "value" : "спиннинг",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "кастинг",
+      "specificity" : "GENERIC"
+    } ],
+    "he" : [ {
+      "value" : "ספינינג",
+      "specificity" : "CANONICAL"
+    } ],
+    "properties" : {
+      "casting_required" : true,
+      "active_reeling" : true,
+      "water_type" : [ "freshwater", "saltwater" ]
+    }
+  }, {
+    "uid" : "methods_1769442340775",
+    "type" : "METHOD",
+    "en" : [ {
+      "value" : "float fishing",
+      "specificity" : "CANONICAL"
+    } ],
+    "ru" : [ {
+      "value" : "ловля на поплавок",
+      "specificity" : "CANONICAL"
+    } ],
+    "he" : [ {
+      "value" : "דיג על פיתיון צף",
+      "specificity" : "CANONICAL"
+    } ],
+    "properties" : {
+      "casting_required" : true,
+      "active_reeling" : false,
+      "water_type" : [ "freshwater", "saltwater" ]
+    }
+  }, {
+    "uid" : "methods_1769442340777",
+    "type" : "METHOD",
+    "en" : [ {
+      "value" : "fly fishing",
+      "specificity" : "CANONICAL"
+    } ],
+    "ru" : [ {
+      "value" : "нахлыст",
+      "specificity" : "CANONICAL"
+    }, {
+      "value" : "ловля нахлыстом",
+      "specificity" : "GENERIC"
+    }, {
+      "value" : "ловля на мушку",
+      "specificity" : "GENERIC"
+    } ],
+    "he" : [ {
+      "value" : "דיג בטרפה מלאכותית",
+      "specificity" : "CANONICAL"
+    } ],
+    "properties" : {
+      "casting_required" : true,
+      "active_reeling" : true,
+      "water_type" : [ "freshwater", "saltwater" ]
+    }
+  } ]
+}

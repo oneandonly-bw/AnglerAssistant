@@ -1,0 +1,17 @@
+{
+  "name": "groq",
+  "displayName": "Groq Cloud",
+  "description": "Fast LPU-based inference - 500k tokens/day free",
+  "apiUrl": "https://api.groq.com/openai/v1/chat/completions",
+  "apiKey": "YOUR_API_KEY_HERE",
+  "model": "llama-3.3-70b-versatile",
+  "enabled": true,
+  "priority": 1,
+  "maxTokens": 8,
+  "temperature": 0.1,
+  "timeoutMs": 30000,
+  "rateLimit": {
+    "requestsPerMinute": 30,
+    "requestsPerDay": 1000
+  }
+}

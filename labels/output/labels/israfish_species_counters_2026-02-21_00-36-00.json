@@ -1,0 +1,22 @@
+{
+  "dictionary" : [ {
+    "value" : "карп",
+    "found" : 3
+  }, {
+    "value" : "мушт",
+    "found" : 1
+  } ],
+  "text" : [ {
+    "value" : "карпик",
+    "found" : 1
+  }, {
+    "value" : "мушта",
+    "found" : 1
+  }, {
+    "value" : "карпов",
+    "found" : 1
+  }, {
+    "value" : "карп",
+    "found" : 1
+  } ]
+}

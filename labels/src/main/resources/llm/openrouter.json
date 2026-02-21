@@ -1,0 +1,17 @@
+{
+  "name": "openrouter",
+  "displayName": "OpenRouter",
+  "description": "Access 25+ free models - 50 requests/day",
+  "apiUrl": "https://openrouter.ai/api/v1/chat/completions",
+  "model": "google/gemma-3-27b-it:free",
+  "apiKeyEnvVar": "OPENROUTER_API_KEY",
+  "enabled": false,
+  "priority": 2,
+  "maxTokens": 4096,
+  "temperature": 0.1,
+  "timeoutMs": 30000,
+  "rateLimit": {
+    "requestsPerMinute": 10,
+    "requestsPerDay": 50
+  }
+}
