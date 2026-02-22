@@ -393,7 +393,4 @@ java -jar app.jar
 
 # Custom config
 java -jar app.jar -config israfish.json
-
-# Resume
-java -jar app.jar -config israfish.json -resume
 ```

@@ -194,7 +194,7 @@ BaseDownloader.download()
     │   OutputWriter.write()
     │
     ▼
-CheckpointResolver (cleanup on crash)
+Close resources
 ```
 
 ## 4. Key Interfaces
