@@ -33,9 +33,6 @@ java -jar app.jar -config israfish.json
 
 # Absolute path
 java -jar app.jar -config C:/config/my.json
-
-# Resume from checkpoint
-java -jar app.jar -config israfish.json -resume
 ```
 
 ## 5. Package Structure

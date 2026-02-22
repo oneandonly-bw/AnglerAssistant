@@ -288,38 +288,7 @@ public interface LLMAdapter {
 | memoryThreshold | 0.8 | Max memory usage |
 | maxRetries | 3 | HTTP retry attempts |
 
-## 6. Checkpoint & Resume
-
-### 6.1 CheckpointResolver
-
-```java
-public class CheckpointResolver {
-    public record CompletedTopics(Set<String>, Set<String>) {}
-    
-    public static CompletedTopics loadCompleted(Path outputFile)
-    public static Set<String> findIncompleteTopics(Path outputFile)
-    public static void cleanupIncomplete(Path outputFile)
-}
-```
-
-### 6.2 Resume Flow
-
-```
-LabelerMain(args)
-       │
-       ├─▶ -resume flag = true?
-       │
-       ▼
-CheckpointResolver.loadCompleted(outputFile)
-       │
-       ▼
-BaseDownloader.setSkipTopicUrls(completed)
-       │
-       ▼
-Skip topics in skipTopicUrls
-```
-
-### 6.3 Markers
+## 6. Output Markers
 
 | Type | Description |
 |------|-------------|

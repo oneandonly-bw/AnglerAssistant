@@ -126,7 +126,6 @@
 | `OpenRouterAdapter` | OpenRouter provider |
 | `HuggingFaceAdapter` | HuggingFace provider |
 | `BaseLLMAdapter` | Base class |
-| `CheckpointManager` | Checkpoint management |
 
 ### 2.8 mains (3 classes)
 
@@ -145,7 +144,6 @@
 
 | Class | Description |
 |-------|-------------|
-| `CheckpointResolver` | Resume/checkpoint logic |
 | `HtmlCleaner` | HTML to text |
 | `PathsManager` | Path management |
 | `SimilarityUtil` | String similarity |
@@ -161,7 +159,7 @@ main(args)
     ▼
 LabelerMain.main()
     │
-    ├─▶ Parse args: -config, -resume
+    ├─▶ Parse args: -config
     │
     ▼
 ConfigurationFacade.getConfiguration(path)
