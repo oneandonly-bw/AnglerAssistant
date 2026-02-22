@@ -338,7 +338,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                 if (surface.length() == value.length() && !surface.equals(value)) {
                     // Ask LLM
                     if (llmAdapter != null) {
-                        boolean llmSaysMatch = llmAdapter.isRelevantType(surface, sentence, entryType);
+                        boolean llmSaysMatch = llmAdapter.isRelevantType(surface, sentence, entryType, candidate.start(), candidate.end());
                         if (llmSaysMatch) {
                             found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), true));
                             // Don't add to seenTerms for duality
@@ -385,7 +385,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                     isMatch = true;
                 } else if (llmAdapter != null) {
                     // LLM
-                    boolean llmSaysMatch = llmAdapter.isFormOf(surfaceLower, value, "ru");
+                    boolean llmSaysMatch = llmAdapter.isFormOf(surfaceLower, value, "ru", entryType);
                     if (llmSaysMatch) {
                         cacheManager.addTerm(surfaceLower);
                         cacheManager.addLemma(lemma);

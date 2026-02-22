@@ -94,12 +94,11 @@ findCandidates(sentence):
 ### 3. LLM Prompt
 
 ```
-System: You are a fish species classifier. Answer only YES or NO.
+You are a precise fish specie classifier. Always answer only YES or NO.
 
-User:
 Context: "Утром Карп поймал карпа"
-Term: "Карп"
-Is this a fish species?
+Term: "Карп" at position 7-11
+Rule: Only answer YES if the Term is a noun and represents a fish specie in the context. Answer NO otherwise.
 ```
 
 ## Notes

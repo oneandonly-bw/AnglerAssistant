@@ -15,15 +15,15 @@ class LLMAdapterTest {
     @Test
     void testIsFormOf_Matches() {
         LLMAdapter adapter = new TestLLMAdapter(true);
-        assertTrue(adapter.isFormOf("карп", "карпы", "ru"));
-        assertTrue(adapter.isFormOf("карп", "карпа", "ru"));
+        assertTrue(adapter.isFormOf("карп", "карпы", "ru", "specie"));
+        assertTrue(adapter.isFormOf("карп", "карпа", "ru", "specie"));
     }
 
     @Test
     void testIsFormOf_NonMatches() {
         LLMAdapter adapter = new TestLLMAdapter(false);
-        assertFalse(adapter.isFormOf("карп", "карпятник", "ru"));
-        assertFalse(adapter.isFormOf("карп", "карповик", "ru"));
+        assertFalse(adapter.isFormOf("карп", "карпятник", "ru", "specie"));
+        assertFalse(adapter.isFormOf("карп", "карповик", "ru", "specie"));
     }
 
     private static class TestLLMAdapter implements LLMAdapter {
@@ -38,12 +38,12 @@ class LLMAdapterTest {
         }
 
         @Override
-        public boolean isFormOf(String key, String candidate, String language) {
+        public boolean isFormOf(String key, String candidate, String language, String entryType) {
             return result;
         }
 
         @Override
-        public boolean isRelevantType(String term, String sentence, String entryType) {
+        public boolean isRelevantType(String term, String sentence, String entryType, int start, int end) {
             return result;
         }
     }

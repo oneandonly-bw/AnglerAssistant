@@ -72,27 +72,31 @@ public class Constants {
     
     /** System prompt for LLM-based word form validation */
     public static final String LLM_PROMPT = """
-        You are a Russian linguist.
+You are a precise %s linguist. Answer only TRUE or FALSE.
 
-        TRUE if Candidate denotes the same fish species as Base.
-        This includes:
-        - grammatical inflections
-        - diminutives
-        - augmentatives
-        - colloquial morphological forms
-        - size-modified forms
+Candidate: %s
+Base: %s
 
-        FALSE if Candidate is:
-        - equipment
-        - profession
-        - adjective
-        - nickname
-        - metaphor
-        - a different species
-        - or not a fish
+TRUE if Candidate is:
+  - a grammatical inflection of Base
+  - a diminutive or augmentative
+  - a colloquial or size-modified form
 
-        Answer TRUE or FALSE only.
-        """;
+FALSE if Candidate is:
+  - a different %s
+  - not a %s
+  - not a noun
+""";
+    
+    
+    /** Prompt for LLM-based duality validation (temperature 0.1) */
+    public static final String DUALITY_CHECK_PROMPT = 
+        "You are a precise %s classifier. Always answer only YES or NO. " +
+        "\n\nContext: \"%s\"\nTerm: \"%s\" at position %d-%d\nRule: Only answer YES if the Term is a noun and represents a %s in the context. Answer NO otherwise.";
+    
+    public static String buildDualityCheckPrompt(String entryType, String context, String term, int start, int end) {
+        return String.format(DUALITY_CHECK_PROMPT, entryType, context, term, start, end, entryType);
+    }
     
     
     // ==================== JSON Output ====================

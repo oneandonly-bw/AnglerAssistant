@@ -6,32 +6,39 @@ import dev.aa.labeling.llm.LLMResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class LLMAdapterImpl implements LLMAdapter {
     private static final Logger logger = LoggerFactory.getLogger(LLMAdapterImpl.class);
+    private static final Path LOG_FILE = Paths.get("output", "LLM_log.txt");
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     
     private final LLMProviderManager manager;
-    private final String systemPrompt;
     
     public LLMAdapterImpl(Path llmConfigDir) throws Exception {
         this.manager = new LLMProviderManager(llmConfigDir);
-        this.systemPrompt = Constants.LLM_PROMPT;
     }
     
     @Override
-    public boolean isFormOf(String key, String candidate, String language) {
+    public boolean isFormOf(String key, String candidate, String language, String entryType) {
         if (!manager.hasProviders()) {
             logger.warn("No LLM providers available");
             return false;
         }
         
         try {
-            String userPrompt = String.format("Base: %s\nCandidate: %s", key, candidate);
-            LLMResponse response = manager.chat(systemPrompt, userPrompt);
+            String prompt = String.format(Constants.LLM_PROMPT, entryType, candidate, key, entryType, entryType);
+            LLMResponse response = manager.chat(null, prompt);
             
             String content = response.getContent().trim().toUpperCase();
             boolean result = "TRUE".equals(content) || content.startsWith("TRUE");
+            
+            logToFile("isFormOf", key, candidate, null, prompt, result ? "TRUE" : "FALSE");
             
             if (result) {
                 logger.info("LLM accept: candidate '{}' is {}", candidate, key);
@@ -48,23 +55,21 @@ public class LLMAdapterImpl implements LLMAdapter {
     }
     
     @Override
-    public boolean isRelevantType(String term, String sentence, String entryType) {
+    public boolean isRelevantType(String term, String sentence, String entryType, int start, int end) {
         if (!manager.hasProviders()) {
             logger.warn("No LLM providers available");
             return false;
         }
         
         try {
-            String systemPrompt = "You are a " + entryType + " classifier. Answer only YES or NO.";
-            String userPrompt = String.format(
-                "Context: \"%s\"\nTerm: \"%s\"\nIs this a %s?",
-                sentence, term, entryType
-            );
+            String prompt = Constants.buildDualityCheckPrompt(entryType, sentence, term, start, end);
             
-            LLMResponse response = manager.chat(systemPrompt, userPrompt);
+            LLMResponse response = manager.chat(null, prompt);
             
             String content = response.getContent().trim().toUpperCase();
             boolean result = "YES".equals(content) || content.startsWith("YES");
+            
+            logToFile("isRelevantType", term, entryType, sentence, prompt, result ? "YES" : "NO");
             
             if (result) {
                 logger.info("LLM accept: candidate '{}' is {}", term, entryType);
@@ -76,6 +81,20 @@ public class LLMAdapterImpl implements LLMAdapter {
         } catch (Exception e) {
             logger.error("LLM duality check failed for term='{}': {}", term, e.getMessage());
             return false;
+        }
+    }
+    
+    private void logToFile(String method, String candidate, String key, String context, String prompt, String result) {
+        try {
+            Files.createDirectories(LOG_FILE.getParent());
+            StringBuilder sb = new StringBuilder();
+            sb.append("=== ").append(LocalDateTime.now().format(FORMATTER)).append(" ===\n");
+            sb.append("Method: ").append(method).append("\n");
+            sb.append("Prompt: ").append(prompt.replace("\n", "\\n")).append("\n");
+            sb.append("Result: ").append(result).append("\n\n");
+            Files.writeString(LOG_FILE, sb.toString(), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        } catch (Exception e) {
+            logger.error("Failed to write to log file: {}", e.getMessage());
         }
     }
     
