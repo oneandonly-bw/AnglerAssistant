@@ -83,7 +83,7 @@ class ConfigurationTest {
             new GeneralConfiguration("INFO"),
             new SiteConfiguration("israfish", "IsraFish", "https://forum.israfish.co.il/", 30000, "Agent"),
             new RuntimeConfiguration(0.8, 3),
-            new LabelerConfiguration(true, 15, 200, 0.3, 0.2, java.util.List.of(), 1000, java.nio.file.Path.of("data"), java.nio.file.Path.of("output/labels"), "labels.json", null, null, 0),
+            new LabelerConfiguration(true, 15, 200, 0.3, 0.2, java.util.List.of(), java.nio.file.Path.of("data"), java.nio.file.Path.of("output/labels"), "labels.json", null, null, 0),
             java.util.List.of()
         );
         

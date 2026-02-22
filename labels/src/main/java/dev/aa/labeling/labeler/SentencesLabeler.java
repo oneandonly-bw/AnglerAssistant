@@ -22,7 +22,6 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
     private CountersManager countersManager;
     
     private List<DictionaryEntry> dictionary;
-    private Set<String> blockedTerms;
     private int rejectedTermsLimit = 1000;
     private LinkedHashMap<String, Long> rejectedTerms;
     private int cacheSaveInterval = 5;
@@ -68,11 +67,6 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
         
         System.out.println("Loading dictionary...");
         loadDictionary();
-        
-        Path blockedTermsPath = deriveBlockedTermsPath(config.dictionaryPaths(), forumDataDir, config.language());
-        
-        System.out.println("Loading blocked terms...");
-        loadBlockedTerms(blockedTermsPath);
         
         if (streamWriter != null) {
             try {
@@ -406,9 +400,6 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
     }
     
     private boolean shouldSkip(String word) {
-        if (blockedTerms != null && blockedTerms.contains(word)) {
-            return true;
-        }
         if (rejectedTerms != null) {
             return rejectedTerms.containsKey(word);
         }
@@ -433,92 +424,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
         dictionary = dictionaryLoader.loadDictionaries(paths, config.language());
         
         System.out.println("Dictionary loaded: " + dictionary.size() + " entries");
-    }
-    
-    private Path deriveBlockedTermsPath(List<String> dictionaryPaths, Path forumDataDir, String language) {
-        String lang = language != null ? language.toLowerCase() : null;
         
-        if (dictionaryPaths == null || dictionaryPaths.isEmpty()) {
-            return null;
-        }
-        
-        String dictPath = dictionaryPaths.get(0);
-        Path dictPathObj = Path.of(dictPath);
-        String dictFileName = dictPathObj.getFileName().toString();
-        
-        String blockedFileName = dictFileName
-            .replace("_dict.json", "_blocked_terms.txt")
-            .replace(".json", "_blocked_terms.txt");
-        
-        String blockedFileNameWithLang = (lang != null ? lang + "_" : "") + blockedFileName;
-        
-        Path dictDir = dictPathObj.getParent();
-        
-        if (dictDir != null) {
-            Path blockedPathWithLang = dictDir.resolve(blockedFileNameWithLang);
-            if (Files.exists(blockedPathWithLang)) {
-                return blockedPathWithLang;
-            }
-        }
-        
-        Path forumBlockedPathWithLang = forumDataDir.resolve(blockedFileNameWithLang);
-        if (Files.exists(forumBlockedPathWithLang)) {
-            return forumBlockedPathWithLang;
-        }
-        
-        Path classpathBlocked = findInClasspath(blockedFileNameWithLang);
-        if (classpathBlocked != null) {
-            return classpathBlocked;
-        }
-        
-        return null;
-    }
-    
-    private Path findInClasspath(String fileName) {
-        var url = getClass().getClassLoader().getResource(fileName);
-        if (url != null) {
-            try {
-                return Path.of(url.toURI());
-            } catch (Exception e) {
-                return null;
-            }
-        }
-        
-        url = getClass().getClassLoader().getResource("dictionaries/" + fileName);
-        if (url != null) {
-            try {
-                return Path.of(url.toURI());
-            } catch (Exception e) {
-                return null;
-            }
-        }
-        
-        return null;
-    }
-    
-    private void loadBlockedTerms(Path blockedTermsPath) {
-        blockedTerms = new HashSet<>();
-        
-        if (blockedTermsPath == null || !Files.exists(blockedTermsPath)) {
-            if (blockedTermsPath != null) {
-                System.out.println("No blocked terms file: " + blockedTermsPath);
-            }
-        } else {
-            try {
-                List<String> lines = Files.readAllLines(blockedTermsPath);
-                for (String line : lines) {
-                    String trimmed = line.trim();
-                    if (!trimmed.isEmpty() && !trimmed.startsWith("#")) {
-                        blockedTerms.add(trimmed);
-                    }
-                }
-                System.out.println("Blocked terms loaded: " + blockedTerms.size() + " terms (persistent)");
-            } catch (IOException e) {
-                System.err.println("Failed to load blocked terms: " + e.getMessage());
-            }
-        }
-        
-        rejectedTermsLimit = config.blockedTermsLimit() > 0 ? config.blockedTermsLimit() : 1000;
         rejectedTerms = new LinkedHashMap<String, Long>(16, 0.75f, true) {
             @Override
             protected boolean removeEldestEntry(Map.Entry<String, Long> eldest) {

@@ -1,0 +1,40 @@
+
+Sentance starts: Карп, Денис
+
+andidate found, LLM match => 'сомневаетесь', 'сом'
+
+candidate found, key match => 'сомневался', 'сом'
+
+
+check https://forum.israfish.co.il/viewtopic.php?t=1781 -> too many found
+
+
+Processing topic: https://forum.israfish.co.il/viewtopic.php?t=9246
+candidate found, LLM match => 'дениски', 'денис'
+
+Processing topic: https://forum.israfish.co.il/viewtopic.php?t=10009
+candidate found, LLM match => 'комсомольское', 'сом'
+
+
+Processing topic: https://forum.israfish.co.il/viewtopic.php?t=8292
+candidate found, LLM reject => 'самурай', 'амур' -> should skippet by skip list
+
+
+
+should to remove resume related things
+eneter duality code
+
+probbaly israfish specific - remove: 
+
+
+эльдорадо in seenTerms! -> dorado
+сарагусодорадо it lemmas
+
+
+remove all:
+candidate found, key match => 'сомы', 'сом'
+candidate found, lemma match => 'мушт', 'мушт'
+candidate found, key match => 'карпов', 'карп'
+candidate found, key match => 'муштов', 'мушт'
+candidate found, key match => 'карпа', 'карп'
+candidate found, key match => 'карпа', 'карп'

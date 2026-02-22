@@ -231,7 +231,6 @@ public class LabelerMain {
             baseConfig.minLanguageRatio(),
             baseConfig.maxSpecialCharRatio(),
             baseConfig.dictionaryPaths(),
-            baseConfig.blockedTermsLimit(),
             dataDirectory,
             outputDirectory,
             outputFileName,

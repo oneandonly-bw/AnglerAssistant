@@ -28,7 +28,6 @@ class SentencesLabelerIntegrationTest {
         LabelerConfiguration config = new LabelerConfiguration(
             true, 15, 200, 0.3, 0.2,
             List.of(Constants.DEFAULT_DICTIONARY_PATH),
-            1000,
             tempDir.resolve("data"),
             outputDir,
             "test.jsonl",
@@ -97,7 +96,6 @@ class SentencesLabelerIntegrationTest {
         LabelerConfiguration config = new LabelerConfiguration(
             true, 15, 200, 0.3, 0.2,
             List.of(Constants.DEFAULT_DICTIONARY_PATH),
-            1000,
             tempDir.resolve("data"),
             outputDir,
             "test.jsonl",
@@ -150,7 +148,6 @@ class SentencesLabelerIntegrationTest {
         LabelerConfiguration config = new LabelerConfiguration(
             true, 15, 200, 0.3, 0.2,
             List.of(Constants.DEFAULT_DICTIONARY_PATH),
-            1000,
             tempDir.resolve("data"),
             outputDir,
             "test.jsonl",
@@ -195,7 +192,6 @@ class SentencesLabelerIntegrationTest {
         LabelerConfiguration config = new LabelerConfiguration(
             true, 15, 50, 0.3, 0.2,
             List.of(Constants.DEFAULT_DICTIONARY_PATH),
-            1000,
             tempDir.resolve("data"),
             outputDir,
             "test.jsonl",
@@ -256,7 +252,6 @@ class SentencesLabelerIntegrationTest {
         LabelerConfiguration config = new LabelerConfiguration(
             true, 15, 60, 0.3, 0.2,
             List.of(Constants.DEFAULT_DICTIONARY_PATH),
-            1000,
             tempDir.resolve("data"),
             outputDir,
             "test.jsonl",

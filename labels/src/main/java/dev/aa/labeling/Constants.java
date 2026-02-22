@@ -61,9 +61,6 @@ public class Constants {
     /** Default path to species dictionary JSON file (used by SentencesLabeler) */
     public static final String DEFAULT_DICTIONARY_PATH = "dictionaries/species_dict.json";
     
-    /** Default path to blocked terms file (human names that conflict with species) */
-    public static final String DEFAULT_BLOCKED_TERMS_PATH = "dictionaries/blocked_terms.txt";
-    
     /** Default path to forum configuration JSON file (used by Main) */
     public static final String DEFAULT_CONFIG_PATH = "config/forums/israfish.json";
     

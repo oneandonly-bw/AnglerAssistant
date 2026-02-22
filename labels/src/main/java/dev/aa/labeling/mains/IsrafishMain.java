@@ -131,7 +131,6 @@ public class IsrafishMain {
             base.minLanguageRatio(),
             base.maxSpecialCharRatio(),
             base.dictionaryPaths(),
-            base.blockedTermsLimit(),
             dataDirectory,
             outputDirectory,
             outputFileName,
