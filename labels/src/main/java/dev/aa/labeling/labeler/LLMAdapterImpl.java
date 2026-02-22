@@ -33,7 +33,11 @@ public class LLMAdapterImpl implements LLMAdapter {
             String content = response.getContent().trim().toUpperCase();
             boolean result = "TRUE".equals(content) || content.startsWith("TRUE");
             
-            logger.debug("LLM: key='{}', candidate='{}' -> {}", key, candidate, result);
+            if (result) {
+                logger.info("LLM accept: candidate '{}' is {}", candidate, key);
+            } else {
+                logger.info("LLM reject: candidate '{}' is not {}", candidate, key);
+            }
             return result;
             
         } catch (Exception e) {
@@ -62,7 +66,11 @@ public class LLMAdapterImpl implements LLMAdapter {
             String content = response.getContent().trim().toUpperCase();
             boolean result = "YES".equals(content) || content.startsWith("YES");
             
-            logger.debug("LLM duality: term='{}' in '{}' entryType='{}' -> {}", term, sentence, entryType, result);
+            if (result) {
+                logger.info("LLM accept: candidate '{}' is {}", term, entryType);
+            } else {
+                logger.info("LLM reject: candidate '{}' is not {}", term, entryType);
+            }
             return result;
             
         } catch (Exception e) {
