@@ -7,12 +7,11 @@ import dev.aa.labeling.interfaces.IfDownloader;
 import dev.aa.labeling.labeler.MaxSentencesReachedException;
 import dev.aa.labeling.labeler.SentencesLabeler;
 import dev.aa.labeling.labeler.OutputWriter;
-import dev.aa.labeling.util.CheckpointResolver;
+
 
 import dev.aa.labeling.engine.BaseDownloader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -59,21 +58,18 @@ public class LabelerMain {
     public static void main(String[] args) {
         startLemmaService();
         if (args.length == 0) {
-            System.out.println("Usage: java LabelerMain -config <config_path> [-resume]");
+            System.out.println("Usage: java LabelerMain -config <config_path>");
             System.out.println("  -config <path>  : Path to config file");
             System.out.println("                     - absolute path: external file (e.g., C:/config/my.json)");
             System.out.println("                     - relative path: file in resources (e.g., config/my_config.json)");
-            System.out.println("  -resume         : Resume from checkpoint");
             System.out.println("");
             System.out.println("Examples:");
             System.out.println("  java LabelerMain -config config/israfish_config.json");
             System.out.println("  java LabelerMain -config C:/config/my_config.json");
-            System.out.println("  java LabelerMain -config config/israfish_config.json -resume");
             System.exit(1);
         }
         
         String configPath = null;
-        boolean resume = false;
         Path llmConfigDir = Path.of(Constants.DEFAULT_LLM_CONFIG_PATH);
         
         for (int i = 0; i < args.length; i++) {
@@ -83,7 +79,6 @@ public class LabelerMain {
                         configPath = args[++i];
                     }
                 }
-                case "-resume" -> resume = true;
                 default -> {
                     if (!args[i].startsWith("-")) {
                         configPath = args[i];
@@ -92,20 +87,10 @@ public class LabelerMain {
             }
         }
         
-        final boolean resumeFlag = resume;
-        
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             System.out.println("\nShutdown signal received...");
             
-            if (currentOutputFile != null) {
-                try {
-                    System.out.println("Cleaning up incomplete topics...");
-                    CheckpointResolver.cleanupIncomplete(currentOutputFile);
-                    System.out.println("Cleanup complete.");
-                } catch (Exception e) {
-                    System.err.println("Error during cleanup: " + e.getMessage());
-                }
-            }
+
             
             if (currentLabeler != null) {
                 try {
@@ -151,7 +136,7 @@ public class LabelerMain {
                     continue;
                 }
                 
-                processForum(config, forum, llmConfigDir, resumeFlag);
+                processForum(config, forum, llmConfigDir);
             }
             
             System.out.println("\nAll forums processed!");
@@ -176,7 +161,7 @@ public class LabelerMain {
         }
     }
     
-    private static void processForum(Configuration config, ForumConfiguration forum, Path llmConfigDir, boolean resume) throws Exception {
+    private static void processForum(Configuration config, ForumConfiguration forum, Path llmConfigDir) throws Exception {
         System.out.println("\n==================================================");
         System.out.println("Processing forum: " + forum.forumName());
         System.out.println("==================================================");
@@ -194,8 +179,6 @@ public class LabelerMain {
         String outputFileName = generateOutputFileName(baseConfig.dictionaryPaths(), siteId);
         
         Path outputFile = outputDirectory.resolve(outputFileName);
-        
-        currentOutputFile = outputFile;
         
         Path dataDirectory = baseConfig.dataDirectory() != null 
             ? baseConfig.dataDirectory() 
@@ -219,18 +202,6 @@ public class LabelerMain {
         
         IfDownloader downloader = DownloaderFactory.create(forumConfig, labeler);
         
-        if (downloader instanceof BaseDownloader baseDownloader) {
-            var completed = CheckpointResolver.loadCompleted(outputFile);
-            if (!completed.completedTopicUrls().isEmpty()) {
-                if (resume) {
-                    System.out.println("Will resume, skipping " + completed.completedTopicUrls().size() + " completed topics");
-                    baseDownloader.setSkipTopicUrls(new HashSet<>(completed.completedTopicUrls()));
-                } else {
-                    System.out.println("Found " + completed.completedTopicUrls().size() + " previously completed topics (use -resume to skip)");
-                }
-            }
-        }
-        
         try {
             downloader.download();
         } catch (Exception e) {
@@ -244,7 +215,6 @@ public class LabelerMain {
         } finally {
             labeler.close();
             currentLabeler = null;
-            currentOutputFile = null;
         }
         
         var result = labeler.getResult();

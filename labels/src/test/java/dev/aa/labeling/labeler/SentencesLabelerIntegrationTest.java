@@ -188,58 +188,6 @@ class SentencesLabelerIntegrationTest {
     }
 
     @Test
-    @org.junit.jupiter.api.Disabled("Resume functionality needs to be rethought")
-    void testResumeFromCache() throws Exception {
-        Path llmConfigDir = Path.of(Constants.DEFAULT_LLM_CONFIG_PATH);
-        Path outputDir = tempDir.resolve("output3");
-        
-        LabelerConfiguration config = new LabelerConfiguration(
-            true, 15, 200, 0.3, 0.2,
-            List.of(Constants.DEFAULT_DICTIONARY_PATH),
-            1000,
-            tempDir.resolve("data"),
-            outputDir,
-            "test.jsonl",
-            "ru",
-            "test_forum",
-            0
-        );
-        
-        OutputWriter writer1 = new OutputWriter(outputDir, "test.jsonl");
-        SentencesLabeler labeler1 = new SentencesLabeler(config, writer1, llmConfigDir);
-        
-        Topic topic1 = new Topic("test", "Test", "Test", "http://example.com/forum1", "http://example.com/topic1", "1");
-        topic1.setContent("Я поймал карпа на червя.");
-        topic1.setLanguage("RU");
-        
-        labeler1.processTopic(topic1);
-        
-        int termsCountAfterFirstRun = labeler1.getCacheTermsCount();
-        
-        writer1.close();
-        labeler1.close();
-        
-        assertTrue(termsCountAfterFirstRun > 0, "Should have some terms cached after first run");
-        
-        OutputWriter writer2 = new OutputWriter(outputDir, "test2.jsonl");
-        SentencesLabeler labeler2 = new SentencesLabeler(config, writer2, llmConfigDir);
-        
-        Topic topic2 = new Topic("test", "Test", "Test", "http://example.com/forum1", "http://example.com/topic2", "2");
-        topic2.setContent("Я поймал карпа и щуку.");
-        topic2.setLanguage("RU");
-        
-        labeler2.processTopic(topic2);
-        
-        int termsCountAfterSecondRun = labeler2.getCacheTermsCount();
-        
-        writer2.close();
-        labeler2.close();
-        
-        assertEquals(termsCountAfterFirstRun, termsCountAfterSecondRun, 
-            "Cache should be reused - same terms count");
-    }
-
-    @Test
     void testLongSentenceContextExtraction() throws Exception {
         Path llmConfigDir = Path.of(Constants.DEFAULT_LLM_CONFIG_PATH);
         Path outputDir = tempDir.resolve("output_long");

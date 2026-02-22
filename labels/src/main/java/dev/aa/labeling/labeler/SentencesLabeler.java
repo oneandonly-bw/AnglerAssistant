@@ -324,11 +324,9 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                     
                     // Step 8: seenTerms check
                     if (cacheManager.containsTerm(surfaceLower)) {
-                        System.out.println("candidate found, key match => '" + surfaceLower + "', '" + valueLower + "'");
                         isMatch = true;
                     } else if (valueLower.equals(surfaceLower)) {
                         // Step 9: Exact match
-                        System.out.println("candidate found, key match => '" + surfaceLower + "', '" + valueLower + "'");
                         cacheManager.addTerm(surfaceLower);
                         isMatch = true;
                     } else {
@@ -339,7 +337,6 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                             found.add(new LabelEntry(surface, canonical, value, wordStart, wordEnd, false));
                         } else if (lemma != null && lemma.length() == valueLower.length()) {
                             // Step 12: Exact match (no suffix added)
-                            System.out.println("candidate found, lemma match => '" + lemma + "', '" + valueLower + "'");
                             cacheManager.addTerm(surfaceLower);
                             cacheManager.addLemma(lemma);
                             isMatch = true;
@@ -347,13 +344,11 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                             // Step 13: LLM
                             boolean llmSaysMatch = llmAdapter.isFormOf(surfaceLower, value, "ru");
                             if (llmSaysMatch) {
-                                System.out.println("candidate found, LLM match => '" + surfaceLower + "', '" + valueLower + "'");
                                 cacheManager.addTerm(surfaceLower);
                                 cacheManager.addLemma(lemma);
                                 isMatch = true;
                             } else {
                                 // Step 14: LLM FALSE - add invalid label and skipList
-                                System.out.println("candidate found, LLM reject => '" + surfaceLower + "', '" + valueLower + "'");
                                 found.add(new LabelEntry(surface, canonical, value, wordStart, wordEnd, false));
                                 if (rejectedTerms != null) {
                                     rejectedTerms.put(surfaceLower, System.currentTimeMillis());

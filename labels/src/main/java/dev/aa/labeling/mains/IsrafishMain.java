@@ -9,17 +9,12 @@ import dev.aa.labeling.factory.DownloaderFactory;
 import dev.aa.labeling.interfaces.IfDownloader;
 import dev.aa.labeling.labeler.SentencesLabeler;
 import dev.aa.labeling.labeler.OutputWriter;
-import dev.aa.labeling.util.CheckpointResolver;
-import dev.aa.labeling.engine.BaseDownloader;
-
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashSet;
 import java.util.List;
 
 public class IsrafishMain {
     private static volatile SentencesLabeler currentLabeler;
-    private static volatile Path currentOutputFile;
     
     public static void main(String[] args) {
         String configPath = "config/israfish_config.json";
@@ -46,7 +41,7 @@ public class IsrafishMain {
                     continue;
                 }
                 
-                processForum(config, forum, llmConfigDir, false);
+                processForum(config, forum, llmConfigDir);
             }
             
             System.out.println("\nAll forums processed!");
@@ -71,7 +66,7 @@ public class IsrafishMain {
         }
     }
     
-    private static void processForum(Configuration config, ForumConfiguration forum, Path llmConfigDir, boolean resume) throws Exception {
+    private static void processForum(Configuration config, ForumConfiguration forum, Path llmConfigDir) throws Exception {
         System.out.println("\n==================================================");
         System.out.println("Processing forum: " + forum.forumName());
         System.out.println("==================================================");
@@ -89,8 +84,6 @@ public class IsrafishMain {
         String outputFileName = generateOutputFileName(baseConfig.dictionaryPaths(), siteId);
         
         Path outputFile = outputDirectory.resolve(outputFileName);
-        
-        currentOutputFile = outputFile;
         
         Path dataDirectory = baseConfig.dataDirectory() != null 
             ? baseConfig.dataDirectory() 
@@ -114,18 +107,6 @@ public class IsrafishMain {
         
         IfDownloader downloader = DownloaderFactory.create(forumConfig, labeler);
         
-        if (downloader instanceof BaseDownloader baseDownloader) {
-            var completed = CheckpointResolver.loadCompleted(outputFile);
-            if (!completed.completedTopicUrls().isEmpty()) {
-                if (resume) {
-                    System.out.println("Will resume, skipping " + completed.completedTopicUrls().size() + " completed topics");
-                    baseDownloader.setSkipTopicUrls(new HashSet<>(completed.completedTopicUrls()));
-                } else {
-                    System.out.println("Found " + completed.completedTopicUrls().size() + " previously completed topics (use -resume to skip)");
-                }
-            }
-        }
-
         try {
             downloader.download();
         } finally {
