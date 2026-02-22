@@ -11,10 +11,9 @@ class DictionaryEntryTest {
         List<DictValue> values = List.of(
             new DictValue("carp", "CANONICAL")
         );
-        DictionaryEntry entry = new DictionaryEntry("uid1", "SPECIES", values);
+        DictionaryEntry entry = new DictionaryEntry("uid1", values);
         
         assertEquals("uid1", entry.uid());
-        assertEquals("SPECIES", entry.type());
         assertEquals("carp", entry.getCanonical());
     }
 
@@ -24,10 +23,9 @@ class DictionaryEntryTest {
             new DictValue("тилапия", "CANONICAL"),
             new DictValue("мушт", "VARIANT")
         );
-        DictionaryEntry entry = new DictionaryEntry("species_001", "SPECIES", values);
+        DictionaryEntry entry = new DictionaryEntry("species_001", values);
         
         assertEquals("species_001", entry.uid());
-        assertEquals("SPECIES", entry.type());
         assertEquals("тилапия", entry.getCanonical());
     }
 
@@ -38,7 +36,7 @@ class DictionaryEntryTest {
             new DictValue("tilapia", "CANONICAL"),
             new DictValue("st. peter's fish", "VARIANT")
         );
-        DictionaryEntry entry = new DictionaryEntry("uid1", "SPECIES", values);
+        DictionaryEntry entry = new DictionaryEntry("uid1", values);
         
         assertEquals("tilapia", entry.getCanonical());
     }

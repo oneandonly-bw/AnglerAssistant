@@ -43,7 +43,7 @@ class LLMAdapterTest {
         }
 
         @Override
-        public boolean isFish(String term, String sentence) {
+        public boolean isRelevantType(String term, String sentence, String entryType) {
             return result;
         }
     }

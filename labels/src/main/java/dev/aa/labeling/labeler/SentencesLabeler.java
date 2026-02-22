@@ -271,6 +271,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
     private List<Candidate> getCandidates(String sentence) {
         List<Candidate> candidates = new ArrayList<>();
         String lowerSentence = sentence.toLowerCase();
+        String entryType = dictionaryLoader.getEntryType();
         
         for (DictionaryEntry entry : dictionary) {
             String canonical = entry.getCanonical();
@@ -296,7 +297,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                     }
                     
                     String surface = sentence.substring(wordStart, wordEnd);
-                    candidates.add(new Candidate(surface, wordStart, wordEnd, canonical, dictValue));
+                    candidates.add(new Candidate(surface, wordStart, wordEnd, canonical, entryType, dictValue));
                     
                     idx = end;
                 }
@@ -317,6 +318,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
         for (Candidate candidate : candidates) {
             String surface = candidate.surface();
             String canonical = candidate.canonical();
+            String entryType = candidate.entryType();
             String surfaceLower = surface.toLowerCase();
             DictValue dictValue = candidate.dictValue();
             String value = dictValue.value();
@@ -336,8 +338,8 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                 if (surface.length() == value.length() && !surface.equals(value)) {
                     // Ask LLM
                     if (llmAdapter != null) {
-                        boolean llmSaysFish = llmAdapter.isFish(surface, sentence);
-                        if (llmSaysFish) {
+                        boolean llmSaysMatch = llmAdapter.isRelevantType(surface, sentence, entryType);
+                        if (llmSaysMatch) {
                             found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), true));
                             // Don't add to seenTerms for duality
                         } else {
@@ -348,11 +350,11 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                         // No LLM, skip
                         found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), false));
                     }
-                    } else {
-                        // Same case or different length - treat as valid (add to cache)
-                        found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), true));
-                        cacheManager.addTerm(surfaceLower);
-                    }
+                } else {
+                    // Same case or different length - treat as valid (add to cache)
+                    found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), true));
+                    cacheManager.addTerm(surfaceLower);
+                }
                 continue;
             }
             

@@ -4,7 +4,6 @@ import java.util.List;
 
 public record DictionaryEntry(
     String uid,
-    String type,
     List<DictValue> values
 ) {
     public String getCanonical() {

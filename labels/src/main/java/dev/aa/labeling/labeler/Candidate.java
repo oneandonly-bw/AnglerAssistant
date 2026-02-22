@@ -5,5 +5,6 @@ public record Candidate(
     int start,
     int end,
     String canonical,
+    String entryType,
     DictValue dictValue
 ) {}

@@ -10,9 +10,14 @@ import java.util.*;
 
 public class DictionaryLoader {
     private final ObjectMapper objectMapper;
+    private String entryType;
 
     public DictionaryLoader(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
+    }
+    
+    public String getEntryType() {
+        return entryType;
     }
 
     public List<DictionaryEntry> loadDictionaries(List<String> paths, String language) {
@@ -56,6 +61,13 @@ public class DictionaryLoader {
 
         try (InputStream is = inputStream) {
             JsonNode root = objectMapper.readTree(is);
+            
+            // Extract entry_type from metadata
+            JsonNode metadata = root.get("metadata");
+            if (metadata != null && metadata.has("entry_type")) {
+                this.entryType = metadata.get("entry_type").asText();
+            }
+            
             JsonNode data = root.get("data");
 
             List<DictionaryEntry> entries = new ArrayList<>();
@@ -63,8 +75,7 @@ public class DictionaryLoader {
             if (data != null && data.isArray()) {
                 for (JsonNode item : data) {
                     String uid = item.has("uid") ? item.get("uid").asText() : "";
-                    String type = item.has("type") ? item.get("type").asText() : "";
-
+                    
                     List<DictValue> values = new ArrayList<>();
                     String[] langFields;
 
@@ -99,7 +110,7 @@ public class DictionaryLoader {
                     }
 
                     if (!values.isEmpty()) {
-                        entries.add(new DictionaryEntry(uid, type, values));
+                        entries.add(new DictionaryEntry(uid, values));
                     }
                 }
             }

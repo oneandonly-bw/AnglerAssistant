@@ -44,17 +44,17 @@ public class LLMAdapterImpl implements LLMAdapter {
     }
     
     @Override
-    public boolean isFish(String term, String sentence) {
+    public boolean isRelevantType(String term, String sentence, String entryType) {
         if (!manager.hasProviders()) {
             logger.warn("No LLM providers available");
             return false;
         }
         
         try {
-            String systemPrompt = "You are a fish species classifier. Answer only YES or NO.";
+            String systemPrompt = "You are a " + entryType + " classifier. Answer only YES or NO.";
             String userPrompt = String.format(
-                "Context: \"%s\"\nTerm: \"%s\"\nIs this a fish species?",
-                sentence, term
+                "Context: \"%s\"\nTerm: \"%s\"\nIs this a %s?",
+                sentence, term, entryType
             );
             
             LLMResponse response = manager.chat(systemPrompt, userPrompt);
@@ -62,7 +62,7 @@ public class LLMAdapterImpl implements LLMAdapter {
             String content = response.getContent().trim().toUpperCase();
             boolean result = "YES".equals(content) || content.startsWith("YES");
             
-            logger.debug("LLM duality: term='{}' in '{}' -> {}", term, sentence, result);
+            logger.debug("LLM duality: term='{}' in '{}' entryType='{}' -> {}", term, sentence, entryType, result);
             return result;
             
         } catch (Exception e) {
