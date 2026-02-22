@@ -41,5 +41,10 @@ class LLMAdapterTest {
         public boolean isFormOf(String key, String candidate, String language) {
             return result;
         }
+
+        @Override
+        public boolean isFish(String term, String sentence) {
+            return result;
+        }
     }
 }

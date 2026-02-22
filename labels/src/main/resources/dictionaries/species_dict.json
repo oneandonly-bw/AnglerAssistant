@@ -1,5 +1,5 @@
 {
-  "metadata": {
+ "metadata": {
     "version": "0.1",
     "last_update": "2026-01-22",
     "dictionary_specific": {
@@ -14,6 +14,26 @@
         "venomous": "The organism INJECTS toxin via spines/stings. Dangerous to touch (e.g., Rabbitfish).",
         "toxic": "The organism IS poisonous if INGESTED (eaten). Dangerous to consume (e.g., Pufferfish).",
         "toxic_roe": "Specific parts (eggs/caviar) are poisonous, especially during spawning (e.g., Barbel)."
+      },
+      "duality_rule_enum": {
+        "CASE_SENSITIVE": "Use letter case as primary disambiguation signal.",
+        "CONTEXT_REQUIRED": "Requires contextual analysis to determine meaning.",
+        "ALWAYS_LLM": "Always send to LLM for disambiguation.",
+        "NEVER": "No special disambiguation required."
+      },
+      "duality_meaning_enum": {
+        "PERSON_NAME": "Human first name",
+        "SURNAME": "Family name",
+        "NICKNAME": "Informal human nickname",
+        "GEOGRAPHIC_NAME": "Place name",
+        "BRAND_NAME": "Commercial brand name"
+      },
+      "duality_definition": {
+        "description": "Marks that a term may have alternate semantic meaning outside species domain.",
+        "fields": {
+          "rule": "One of duality_rule_enum values",
+          "alternate_meaning": "One of duality_meaning_enum values"
+        }
       }
     },
     "global_definitions": {
@@ -24,6 +44,7 @@
       }
     }
   },
+	
   "data": [
     {
       "uid": "species_1769442340783",
@@ -104,7 +125,11 @@
       "ru": [
         {
           "value": "карп",
-          "specificity": "CANONICAL"
+          "specificity": "CANONICAL",
+		  "duality": {
+              "rule": "CASE_SENSITIVE",
+              "alternate_meaning": "PERSON_NAME"
+           }
         },
         {
           "value": "сазан",
@@ -367,7 +392,12 @@
         },
         {
           "value": "денис",
-          "specificity": "MOSTLY_USED"
+          "specificity": "MOSTLY_USED",
+		   "duality": {
+              "rule": "CASE_SENSITIVE",
+              "alternate_meaning": "PERSON_NAME"
+           }
+		  
         }
       ],
       "he": [

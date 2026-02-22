@@ -65,8 +65,7 @@
         },
         "outputDirectory": { "type": "string" },
         "outputFileName": { "type": "string" },
-        "maxSentences": { "type": "integer", "minimum": 0 },
-        "blockedTermsLimit": { "type": "integer", "minimum": 0 }
+        "maxSentences": { "type": "integer", "minimum": 0 }
       }
     },
     "forums": {

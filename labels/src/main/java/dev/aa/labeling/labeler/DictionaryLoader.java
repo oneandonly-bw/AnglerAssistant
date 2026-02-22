@@ -82,7 +82,18 @@ public class DictionaryLoader {
                                 String specificity = nameNode.has("specificity") 
                                     ? nameNode.get("specificity").asText() 
                                     : "VARIANT";
-                                values.add(new DictValue(value, specificity));
+                                
+                                Duality duality = null;
+                                JsonNode dualityNode = nameNode.get("duality");
+                                if (dualityNode != null) {
+                                    String rule = dualityNode.has("rule") ? dualityNode.get("rule").asText() : null;
+                                    String alternateMeaning = dualityNode.has("alternate_meaning") 
+                                        ? dualityNode.get("alternate_meaning").asText() 
+                                        : null;
+                                    duality = new Duality(rule, alternateMeaning);
+                                }
+                                
+                                values.add(new DictValue(value, specificity, duality));
                             }
                         }
                     }

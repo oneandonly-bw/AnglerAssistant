@@ -268,104 +268,146 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                    .trim();
     }
     
-    private List<LabelEntry> findLabels(String originalText, String cleanedText, boolean debug) {
-        List<LabelEntry> found = new ArrayList<>();
-        String lowerText = cleanedText.toLowerCase();
+    private List<Candidate> getCandidates(String sentence) {
+        List<Candidate> candidates = new ArrayList<>();
+        String lowerSentence = sentence.toLowerCase();
         
         for (DictionaryEntry entry : dictionary) {
             String canonical = entry.getCanonical();
             if (canonical == null) continue;
-            String canonicalLower = canonical.toLowerCase();
             
             for (DictValue dictValue : entry.values()) {
                 String value = dictValue.value();
                 String valueLower = value.toLowerCase();
-                String specificity = dictValue.specificity();
                 
                 int idx = 0;
-                int firstIdx = lowerText.indexOf(valueLower);
-                if (firstIdx == -1) {
-                    continue;
-                }
-                
-                while ((idx = lowerText.indexOf(valueLower, idx)) != -1) {
+                while ((idx = lowerSentence.indexOf(valueLower, idx)) != -1) {
                     int end = idx + valueLower.length();
                     
-                    // foundWord is EXACTLY the dictionary value found in text
-                    String foundWord = valueLower;
-                    
-                    // Get word boundaries to extract actual surface from original text
+                    // Extract surface preserving case
                     int wordStart = idx;
                     int wordEnd = end;
                     
-                    // Expand to get actual word from original (with original case)
-                    while (wordStart > 0 && Character.isLetterOrDigit(cleanedText.charAt(wordStart - 1))) {
+                    while (wordStart > 0 && Character.isLetterOrDigit(sentence.charAt(wordStart - 1))) {
                         wordStart--;
                     }
-                    while (wordEnd < cleanedText.length() && Character.isLetterOrDigit(cleanedText.charAt(wordEnd))) {
+                    while (wordEnd < sentence.length() && Character.isLetterOrDigit(sentence.charAt(wordEnd))) {
                         wordEnd++;
                     }
-                    String surface = cleanedText.substring(wordStart, wordEnd);
                     
-                    if (shouldSkip(surface)) {
-                        found.add(new LabelEntry(surface, canonical, value, wordStart, wordEnd, false));
-                        idx = end;
-                        continue;
-                    }
-                    
-                    boolean isMatch = false;
-                    String surfaceLower = surface.toLowerCase();
-                    
-                    // Step 8: seenTerms check
-                    if (cacheManager.containsTerm(surfaceLower)) {
-                        isMatch = true;
-                    } else if (valueLower.equals(surfaceLower)) {
-                        // Step 9: Exact match
-                        cacheManager.addTerm(surfaceLower);
-                        isMatch = true;
-                    } else {
-                        // Step 10: Lemma
-                        String lemma = getLemma(surfaceLower);
-                        // Step 11: Lemma doesn't contain key -> invalid
-                        if (lemma != null && !lemma.contains(valueLower)) {
-                            found.add(new LabelEntry(surface, canonical, value, wordStart, wordEnd, false));
-                        } else if (lemma != null && lemma.length() == valueLower.length()) {
-                            // Step 12: Exact match (no suffix added)
-                            cacheManager.addTerm(surfaceLower);
-                            cacheManager.addLemma(lemma);
-                            isMatch = true;
-                        } else if (llmAdapter != null) {
-                            // Step 13: LLM
-                            boolean llmSaysMatch = llmAdapter.isFormOf(surfaceLower, value, "ru");
-                            if (llmSaysMatch) {
-                                cacheManager.addTerm(surfaceLower);
-                                cacheManager.addLemma(lemma);
-                                isMatch = true;
-                            } else {
-                                // Step 14: LLM FALSE - add invalid label and skipList
-                                found.add(new LabelEntry(surface, canonical, value, wordStart, wordEnd, false));
-                                if (rejectedTerms != null) {
-                                    rejectedTerms.put(surfaceLower, System.currentTimeMillis());
-                                }
-                            }
-                        }
-                    }
-                    
-                    if (isMatch) {
-                        String variant = null;
-                        if ("VARIANT".equals(specificity) || "MOSTLY_USED".equals(specificity)) {
-                            variant = value;
-                        }
-                        
-                        found.add(new LabelEntry(surface, canonical, variant, wordStart, wordEnd, true));
-                        
-                        if (countersManager != null) {
-                            countersManager.incrementDictionary(value);
-                            countersManager.incrementSurface(surface);
-                        }
-                    }
+                    String surface = sentence.substring(wordStart, wordEnd);
+                    candidates.add(new Candidate(surface, wordStart, wordEnd, canonical, dictValue));
                     
                     idx = end;
+                }
+            }
+        }
+        
+        return candidates;
+    }
+    
+    private List<LabelEntry> findLabels(String originalText, String cleanedText, boolean debug) {
+        List<Candidate> candidates = getCandidates(cleanedText);
+        return getLabels(candidates, cleanedText);
+    }
+    
+    private List<LabelEntry> getLabels(List<Candidate> candidates, String sentence) {
+        List<LabelEntry> found = new ArrayList<>();
+        
+        for (Candidate candidate : candidates) {
+            String surface = candidate.surface();
+            String canonical = candidate.canonical();
+            String surfaceLower = surface.toLowerCase();
+            DictValue dictValue = candidate.dictValue();
+            String value = dictValue.value();
+            String valueLower = value.toLowerCase();
+            Duality duality = dictValue.duality();
+            
+            // Check duality
+            if (duality != null) {
+                String rule = duality.rule();
+                if (rule == null || !"CASE_SENSITIVE".equals(rule)) {
+                    throw new IllegalStateException(
+                        "Unsupported duality rule: " + rule + " for term: " + value
+                    );
+                }
+                
+                // CASE_SENSITIVE: length same, but case different
+                if (surface.length() == value.length() && !surface.equals(value)) {
+                    // Ask LLM
+                    if (llmAdapter != null) {
+                        boolean llmSaysFish = llmAdapter.isFish(surface, sentence);
+                        if (llmSaysFish) {
+                            found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), true));
+                            // Don't add to seenTerms for duality
+                        } else {
+                            found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), false));
+                            // Don't add to seenTerms
+                        }
+                    } else {
+                        // No LLM, skip
+                        found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), false));
+                    }
+                    } else {
+                        // Same case or different length - treat as valid (add to cache)
+                        found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), true));
+                        cacheManager.addTerm(surfaceLower);
+                    }
+                continue;
+            }
+            
+            // Normal validation (no duality)
+            if (shouldSkip(surfaceLower)) {
+                found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), false));
+                continue;
+            }
+            
+            boolean isMatch = false;
+            
+            // Step: seenTerms check
+            if (cacheManager.containsTerm(surfaceLower)) {
+                isMatch = true;
+            } else if (valueLower.equals(surfaceLower)) {
+                // Exact match
+                cacheManager.addTerm(surfaceLower);
+                isMatch = true;
+            } else {
+                // Lemma
+                String lemma = getLemma(surfaceLower);
+                if (lemma != null && !lemma.contains(valueLower)) {
+                    found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), false));
+                } else if (lemma != null && lemma.length() == valueLower.length()) {
+                    // Exact match (no suffix added)
+                    cacheManager.addTerm(surfaceLower);
+                    cacheManager.addLemma(lemma);
+                    isMatch = true;
+                } else if (llmAdapter != null) {
+                    // LLM
+                    boolean llmSaysMatch = llmAdapter.isFormOf(surfaceLower, value, "ru");
+                    if (llmSaysMatch) {
+                        cacheManager.addTerm(surfaceLower);
+                        cacheManager.addLemma(lemma);
+                        isMatch = true;
+                    } else {
+                        found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), false));
+                        if (rejectedTerms != null) {
+                            rejectedTerms.put(surfaceLower, System.currentTimeMillis());
+                        }
+                    }
+                }
+            }
+            
+            if (isMatch) {
+                String variant = null;
+                if ("VARIANT".equals(dictValue.specificity()) || "MOSTLY_USED".equals(dictValue.specificity())) {
+                    variant = value;
+                }
+                
+                found.add(new LabelEntry(surface, canonical, variant, candidate.start(), candidate.end(), true));
+                
+                if (countersManager != null) {
+                    countersManager.incrementDictionary(value);
+                    countersManager.incrementSurface(surface);
                 }
             }
         }
