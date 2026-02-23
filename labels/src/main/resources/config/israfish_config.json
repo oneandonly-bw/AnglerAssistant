@@ -28,7 +28,7 @@
       "dictionaries/species_dict.json"
     ],
     "dataDirectory": "C:/AnglerAsistant/labels/data",
-    "outputDirectory": "C:/AnglerAsistant/labels/output/labels"
+    "outputDirectory": "C:/AnglerAsistant/labels/output/labeled"
   },
   "forums": [
     {

@@ -185,7 +185,7 @@ public class LabelerMain {
             : Path.of(Constants.DATA_ROOT);
         
         LabelerConfiguration labelerConfig = createLabelerConfiguration(
-            baseConfig, outputDirectory, outputFileName, forum.language(), siteId, dataDirectory);
+            baseConfig, outputDirectory, outputFileName, forum.language(), siteId, dataDirectory, siteId);
         
         OutputWriter writer = new OutputWriter(outputDirectory, outputFileName);
         SentencesLabeler labeler = new SentencesLabeler(labelerConfig, writer, llmConfigDir);
@@ -223,7 +223,7 @@ public class LabelerMain {
     }
     
     private static LabelerConfiguration createLabelerConfiguration(
-            LabelerConfiguration baseConfig, Path outputDirectory, String outputFileName, String language, String forumName, Path dataDirectory) {
+            LabelerConfiguration baseConfig, Path outputDirectory, String outputFileName, String language, String forumName, Path dataDirectory, String siteId) {
         return new LabelerConfiguration(
             baseConfig.enabled(),
             baseConfig.minSentenceLength(),
@@ -236,7 +236,8 @@ public class LabelerMain {
             outputFileName,
             language,
             forumName,
-            baseConfig.maxSentences()
+            baseConfig.maxSentences(),
+            siteId
         );
     }
     

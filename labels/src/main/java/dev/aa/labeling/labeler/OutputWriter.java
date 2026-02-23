@@ -31,9 +31,9 @@ public class OutputWriter implements AutoCloseable {
 
     public OutputWriter(Path outputDirectory, String outputFileName) {
         this.outputDirectory = outputDirectory;
-        this.baseFileName = outputFileName.replace(".jsonl", "");
-        this.outputFileNameValid = baseFileName + "_valid.jsonl";
-        this.outputFileNameInvalid = baseFileName + "_invalid.jsonl";
+        this.baseFileName = outputFileName.replace(".txt", "");
+        this.outputFileNameValid = baseFileName + "_valid.txt";
+        this.outputFileNameInvalid = baseFileName + "_invalid.txt";
         
         this.objectMapper = JsonMapper.builder()
             .disable(SerializationFeature.FAIL_ON_EMPTY_BEANS)

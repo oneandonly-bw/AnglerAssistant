@@ -17,7 +17,8 @@ public record LabelerConfiguration(
     @JsonProperty(value = "outputFileName") String outputFileName,
     @JsonProperty(value = "language") String language,
     @JsonProperty(value = "forumName") String forumName,
-    @JsonProperty(value = "maxSentences", defaultValue = "0") int maxSentences
+    @JsonProperty(value = "maxSentences", defaultValue = "0") int maxSentences,
+    @JsonProperty(value = "siteId") String siteId
 ) {
     public static LabelerConfiguration defaults() {
         return new LabelerConfiguration(
@@ -32,7 +33,8 @@ public record LabelerConfiguration(
             "labels.json",
             null,
             null,
-            0
+            0,
+            null
         );
     }
 }

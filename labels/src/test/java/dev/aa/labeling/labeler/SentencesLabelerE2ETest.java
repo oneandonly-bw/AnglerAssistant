@@ -30,7 +30,8 @@ class SentencesLabelerE2ETest {
             "test.json",
             "ru",
             "test_forum",
-            0
+            0,
+            null
         );
         
         SentencesLabeler labeler = new SentencesLabeler(config, null, llmConfigDir, new NoOpLemmatizer());
@@ -69,7 +70,8 @@ class SentencesLabelerE2ETest {
             "test.json",
             "ru",
             "test_forum",
-            0
+            0,
+            null
         );
         
         SentencesLabeler labeler = new SentencesLabeler(config, null, llmConfigDir, new NoOpLemmatizer());

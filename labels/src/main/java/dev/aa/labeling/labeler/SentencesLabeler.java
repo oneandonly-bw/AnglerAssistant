@@ -228,6 +228,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
         for (LabelEntry label : validLabels) {
             int labelStart = label.start();
             int labelEnd = label.end();
+            String surface = label.surface();
             
             int wordIndex = getWordIndexAtPosition(cleanedText, labelStart);
             

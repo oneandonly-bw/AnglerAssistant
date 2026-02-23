@@ -90,7 +90,7 @@ public class IsrafishMain {
             : Path.of(Constants.DATA_ROOT);
         
         LabelerConfiguration labelerConfig = createLabelerConfiguration(
-            baseConfig, outputDirectory, outputFileName, forum.language(), siteId, dataDirectory);
+            baseConfig, outputDirectory, outputFileName, forum.language(), siteId, dataDirectory, siteId);
         
         OutputWriter writer = new OutputWriter(outputDirectory, outputFileName);
         SentencesLabeler labeler = new SentencesLabeler(labelerConfig, writer, llmConfigDir);
@@ -122,7 +122,8 @@ public class IsrafishMain {
             String outputFileName,
             String language,
             String forumName,
-            Path dataDirectory) {
+            Path dataDirectory,
+            String siteId) {
         
         return new LabelerConfiguration(
             base.enabled(),
@@ -136,7 +137,8 @@ public class IsrafishMain {
             outputFileName,
             language,
             forumName,
-            base.maxSentences()
+            base.maxSentences(),
+            siteId
         );
     }
     
