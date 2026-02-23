@@ -74,9 +74,8 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                 
                 Path outputDir = config.outputDirectory() != null ? config.outputDirectory() : Path.of("output");
                 String countersFileName = "counters.json";
-                if (config.outputFileName() != null && !config.outputFileName().isEmpty()) {
-                    String baseName = config.outputFileName().replace(".json", "");
-                    countersFileName = baseName + "_counters.json";
+                if (config.siteId() != null && !config.siteId().isEmpty()) {
+                    countersFileName = config.siteId() + "_counters.json";
                 }
                 this.countersManager = new CountersManager(outputDir, countersFileName);
                 
@@ -341,10 +340,12 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                         boolean llmSaysMatch = llmAdapter.isRelevantType(surface, sentence, entryType, candidate.start(), candidate.end());
                         if (llmSaysMatch) {
                             found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), true));
-                            // Don't add to seenTerms for duality
+                            if (countersManager != null) {
+                                countersManager.incrementDictionary(value);
+                                countersManager.incrementSurface(surface);
+                            }
                         } else {
                             found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), false));
-                            // Don't add to seenTerms
                         }
                     } else {
                         // No LLM, skip
@@ -354,6 +355,10 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                     // Same case or different length - treat as valid (add to cache)
                     found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), true));
                     cacheManager.addTerm(surfaceLower);
+                    if (countersManager != null) {
+                        countersManager.incrementDictionary(value);
+                        countersManager.incrementSurface(surface);
+                    }
                 }
                 continue;
             }
@@ -385,7 +390,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                     isMatch = true;
                 } else if (llmAdapter != null) {
                     // LLM
-                    boolean llmSaysMatch = llmAdapter.isFormOf(surfaceLower, value, "ru", entryType);
+                    boolean llmSaysMatch = llmAdapter.isFormOf(surfaceLower, value, languageConfig.getLanguageCode(), entryType);
                     if (llmSaysMatch) {
                         cacheManager.addTerm(surfaceLower);
                         cacheManager.addLemma(lemma);

@@ -78,25 +78,7 @@ public class OutputWriter implements AutoCloseable {
     }
 
     private String toJson(ObjectNode json) throws IOException {
-        String compact = objectMapper.writeValueAsString(json);
-        StringBuilder sb = new StringBuilder();
-        boolean inString = false;
-        for (int i = 0; i < compact.length(); i++) {
-            char c = compact.charAt(i);
-            if (c == '"') {
-                inString = !inString;
-                sb.append(c);
-            } else if (inString) {
-                sb.append(c);
-            } else if (c == ':') {
-                sb.append(" : ");
-            } else if (c == ',') {
-                sb.append(", ");
-            } else {
-                sb.append(c);
-            }
-        }
-        return sb.toString();
+        return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
     }
 
     public void writeForumStart(String forumUrl) throws IOException {

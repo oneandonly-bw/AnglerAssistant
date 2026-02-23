@@ -77,25 +77,61 @@ You are a precise %s linguist. Answer only TRUE or FALSE.
 Candidate: %s
 Base: %s
 
-TRUE if Candidate is:
-  - a grammatical inflection of Base
-  - a diminutive or augmentative
-  - a colloquial or size-modified form
+PRIORITY:
+1. First, verify Candidate is a noun only.
+   - Answer FALSE if Candidate is a verb.
+   - Answer FALSE if Candidate is an adjective.
+   - Answer FALSE if Candidate is an adverb.
+   - Only proceed if Candidate is a noun.
+2. Then, check if Candidate is a form of Base:
+   - a grammatical inflection of Base (nominative, genitive, dative, accusative, instrumental, prepositional)
+   - a diminutive, augmentative, or colloquial form of Base
+   - a size-modified form of Base
 
-FALSE if Candidate is:
-  - a different %s
-  - not a %s
-  - not a noun
+Only answer TRUE if both conditions are satisfied.
+Answer FALSE otherwise.
+""";
+    
+    
+    /** Russian-specific prompt for LLM-based word form validation */
+    public static final String RU_IS_FORM_OF_PROMPT = """
+You are a precise %s linguist of Russian. Answer only TRUE or FALSE.
+
+Candidate: %s
+Base: %s
+
+Examples of TRUE (same word, different form):
+- сома → сом: TRUE (genitive case)
+- сомы → сом: TRUE (plural)
+- сомик → сом: TRUE (diminutive)
+- сомов → сом: TRUE (genitive plural)
+- сомище → сом: TRUE (augmentative)
+
+Examples of FALSE (different word type or not related):
+- сомячий → сом: FALSE (adjective)
+- сомячей → сом: FALSE (adjective)
+- сомовьими → сом: FALSE (adjective)
+- сомневается → сом: FALSE (verb)
+- сомнение → сом: FALSE (candidate is not a form of Base)
+
+Now evaluate:
+If Candidate is a noun form of Base → TRUE
+Otherwise → FALSE
 """;
     
     
     /** Prompt for LLM-based duality validation (temperature 0.1) */
     public static final String DUALITY_CHECK_PROMPT = 
-        "You are a precise %s classifier. Always answer only YES or NO. " +
-        "\n\nContext: \"%s\"\nTerm: \"%s\" at position %d-%d\nRule: Only answer YES if the Term is a noun and represents a %s in the context. Answer NO otherwise.";
+        "You are a precise %s classifier.\nAnswer only TRUE or FALSE.\n\n" +
+        "Context: \"%s\"\nTerm: \"%s\"\n\n" +
+        "PRIORITY:\n" +
+        "Evaluate ONLY whether the Term refers to a %s in this context.\n" +
+        "Ignore all other possible meanings.\n\n" +
+        "If it refers to a %s, answer TRUE.\n" +
+        "If it does not, answer FALSE.";
     
-    public static String buildDualityCheckPrompt(String entryType, String context, String term, int start, int end) {
-        return String.format(DUALITY_CHECK_PROMPT, entryType, context, term, start, end, entryType);
+    public static String buildDualityCheckPrompt(String entryType, String context, String term) {
+        return String.format(DUALITY_CHECK_PROMPT, entryType, context, term, entryType, entryType);
     }
     
     

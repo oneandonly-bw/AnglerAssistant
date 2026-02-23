@@ -8,7 +8,7 @@
   "enabled": true,
   "priority": 1,
   "maxTokens": 8,
-  "temperature": 0.1,
+  "temperature": 0,
   "timeoutMs": 30000,
   "rateLimit": {
     "requestsPerMinute": 30,

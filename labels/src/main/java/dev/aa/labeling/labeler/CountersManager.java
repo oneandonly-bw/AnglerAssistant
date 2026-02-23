@@ -22,6 +22,92 @@ public class CountersManager {
         this.countersPath = findUniquePath(outputDirectory, baseName);
         this.mapper = new ObjectMapper();
         this.mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        
+        loadAndMergeCounters(outputDirectory, baseName);
+    }
+    
+    private void loadAndMergeCounters(Path outputDirectory, String baseName) {
+        try {
+            Path existingCounter = findLatestCounter(outputDirectory, baseName);
+            if (existingCounter != null && Files.exists(existingCounter)) {
+                String json = Files.readString(existingCounter);
+                com.fasterxml.jackson.databind.JsonNode root = mapper.readTree(json);
+                
+                com.fasterxml.jackson.databind.JsonNode dictNode = root.get("dictionary");
+                if (dictNode != null && dictNode.isArray()) {
+                    for (com.fasterxml.jackson.databind.JsonNode item : dictNode) {
+                        String value = item.get("value").asText();
+                        int count = item.get("found").asInt();
+                        dictionaryCounts.put(value, count);
+                    }
+                }
+                
+                com.fasterxml.jackson.databind.JsonNode textNode = root.get("text");
+                if (textNode != null && textNode.isArray()) {
+                    for (com.fasterxml.jackson.databind.JsonNode item : textNode) {
+                        String value = item.get("value").asText();
+                        int count = item.get("found").asInt();
+                        surfaceCounts.put(value, count);
+                    }
+                }
+                
+                System.out.println("Loaded and will merge with existing counters from: " + existingCounter);
+            }
+        } catch (Exception e) {
+            System.err.println("No existing counters to merge: " + e.getMessage());
+        }
+    }
+    
+    private void loadExistingCounters(Path outputDirectory, String baseName) {
+        try {
+            Path latestCounter = findLatestCounter(outputDirectory, baseName);
+            if (latestCounter != null && Files.exists(latestCounter)) {
+                String json = Files.readString(latestCounter);
+                com.fasterxml.jackson.databind.JsonNode root = mapper.readTree(json);
+                
+                com.fasterxml.jackson.databind.JsonNode dictNode = root.get("dictionary");
+                if (dictNode != null && dictNode.isArray()) {
+                    for (com.fasterxml.jackson.databind.JsonNode item : dictNode) {
+                        String value = item.get("value").asText();
+                        int count = item.get("found").asInt();
+                        dictionaryCounts.put(value, count);
+                    }
+                }
+                
+                com.fasterxml.jackson.databind.JsonNode textNode = root.get("text");
+                if (textNode != null && textNode.isArray()) {
+                    for (com.fasterxml.jackson.databind.JsonNode item : textNode) {
+                        String value = item.get("value").asText();
+                        int count = item.get("found").asInt();
+                        surfaceCounts.put(value, count);
+                    }
+                }
+                
+                System.out.println("Loaded existing counters from: " + latestCounter);
+            }
+        } catch (Exception e) {
+            System.err.println("Failed to load existing counters: " + e.getMessage());
+        }
+    }
+    
+    private Path findLatestCounter(Path outputDirectory, String baseName) {
+        try {
+            var files = Files.list(outputDirectory)
+                .filter(p -> p.toString().contains(baseName + "_counters"))
+                .filter(p -> p.toString().endsWith(".json"))
+                .toList();
+            
+            if (files.isEmpty()) return null;
+            
+            return files.stream()
+                .max(Comparator.comparingLong(p -> {
+                    try { return Files.getLastModifiedTime(p).toMillis(); }
+                    catch (Exception e) { return 0L; }
+                }))
+                .orElse(null);
+        } catch (Exception e) {
+            return null;
+        }
     }
     
     private Path findUniquePath(Path outputDirectory, String baseName) {
