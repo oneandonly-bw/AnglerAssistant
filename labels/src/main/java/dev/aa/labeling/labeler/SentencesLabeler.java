@@ -340,21 +340,21 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                     if (llmAdapter != null) {
                         boolean llmSaysMatch = llmAdapter.isRelevantType(surface, sentence, entryType, candidate.start(), candidate.end());
                         if (llmSaysMatch) {
-                            found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), true));
+                            found.add(createLabel(surface, canonical, dictValue, candidate.start(), candidate.end(), true));
                             if (countersManager != null) {
                                 countersManager.incrementDictionary(value);
                                 countersManager.incrementSurface(surface);
                             }
                         } else {
-                            found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), false));
+                            found.add(createLabel(surface, canonical, dictValue, candidate.start(), candidate.end(), false));
                         }
                     } else {
                         // No LLM, skip
-                        found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), false));
+                        found.add(createLabel(surface, canonical, dictValue, candidate.start(), candidate.end(), false));
                     }
                 } else {
                     // Same case or different length - treat as valid (add to cache)
-                    found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), true));
+                    found.add(createLabel(surface, canonical, dictValue, candidate.start(), candidate.end(), true));
                     cacheManager.addTerm(surfaceLower);
                     if (countersManager != null) {
                         countersManager.incrementDictionary(value);
@@ -366,7 +366,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
             
             // Normal validation (no duality)
             if (shouldSkip(surfaceLower)) {
-                found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), false));
+                found.add(createLabel(surface, canonical, dictValue, candidate.start(), candidate.end(), false));
                 continue;
             }
             
@@ -383,7 +383,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                 // Lemma
                 String lemma = getLemma(surfaceLower);
                 if (lemma != null && !lemma.contains(valueLower)) {
-                    found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), false));
+                    found.add(createLabel(surface, canonical, dictValue, candidate.start(), candidate.end(), false));
                 } else if (lemma != null && lemma.length() == valueLower.length()) {
                     // Exact match (no suffix added)
                     cacheManager.addTerm(surfaceLower);
@@ -397,7 +397,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
                         cacheManager.addLemma(lemma);
                         isMatch = true;
                     } else {
-                        found.add(new LabelEntry(surface, canonical, value, candidate.start(), candidate.end(), false));
+                        found.add(createLabel(surface, canonical, dictValue, candidate.start(), candidate.end(), false));
                         if (rejectedTerms != null) {
                             rejectedTerms.put(surfaceLower, System.currentTimeMillis());
                         }
@@ -406,12 +406,7 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
             }
             
             if (isMatch) {
-                String variant = null;
-                if ("VARIANT".equals(dictValue.specificity()) || "MOSTLY_USED".equals(dictValue.specificity())) {
-                    variant = value;
-                }
-                
-                found.add(new LabelEntry(surface, canonical, variant, candidate.start(), candidate.end(), true));
+                found.add(createLabel(surface, canonical, dictValue, candidate.start(), candidate.end(), true));
                 
                 if (countersManager != null) {
                     countersManager.incrementDictionary(value);
@@ -460,6 +455,14 @@ public class SentencesLabeler implements IfTopicLabeler, AutoCloseable {
         if (rejectedTerms != null) {
             rejectedTerms.put(word, System.currentTimeMillis());
         }
+    }
+    
+    private LabelEntry createLabel(String surface, String canonical, DictValue dictValue, int start, int end, boolean isValid) {
+        String variant = null;
+        if ("VARIANT".equals(dictValue.specificity()) || "MOSTLY_USED".equals(dictValue.specificity())) {
+            variant = dictValue.value();
+        }
+        return new LabelEntry(surface, canonical, variant, start, end, isValid);
     }
     
     private void loadDictionary() {
